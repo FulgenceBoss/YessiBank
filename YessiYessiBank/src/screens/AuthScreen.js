@@ -3,24 +3,39 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   ActivityIndicator,
   Alert,
+  TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendOtp, verifyOtp} from '../store/authSlice';
+import {LinearGradient} from 'expo-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// Le même thème que WelcomeScreen pour la cohérence
+const theme = {
+  primary: '#2e7d32',
+  success: '#4caf50',
+  surface: '#ffffff',
+  textPrimary: '#212121',
+  textSecondary: '#757575',
+  lightGreen: '#e8f5e9',
+  gold: '#ffd700',
+  gradientStart: '#fafafa',
+  gradientEnd: '#f8f9fa',
+  error: '#d32f2f',
+};
 
 const AuthScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [otp, setOtp] = useState('');
   const dispatch = useDispatch();
-  const {loading, error, otpSent, isAuthenticated} = useSelector(
-    state => state.auth,
-  );
+  const {loading, error, otpSent} = useSelector(state => state.auth);
 
   const validateGabonPhoneNumber = number => {
-    // Regex pour les numéros gabonais : commence par 06 ou 07, suivi de 7 chiffres.
     const gabonPhoneRegex = /^(06|07)\d{7}$/;
     return gabonPhoneRegex.test(number);
   };
@@ -30,7 +45,7 @@ const AuthScreen = () => {
       dispatch(sendOtp(phoneNumber));
     } else {
       Alert.alert(
-        'Erreur',
+        'Numéro Invalide',
         'Veuillez entrer un numéro de téléphone gabonais valide (ex: 06xxxxxxx ou 07xxxxxxx).',
       );
     }
@@ -38,98 +53,188 @@ const AuthScreen = () => {
 
   const handleVerifyOtp = () => {
     if (otp.length === 6) {
-      // Simple validation
       dispatch(verifyOtp({phoneNumber, otp}));
     } else {
-      Alert.alert('Erreur', 'Veuillez entrer le code OTP à 6 chiffres.');
+      Alert.alert('Code Invalide', 'Veuillez entrer le code à 6 chiffres.');
     }
   };
 
-  if (isAuthenticated) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Connexion réussie !</Text>
+  const renderPhoneInput = () => (
+    <>
+      <Text style={styles.header}>Bienvenue !</Text>
+      <Text style={styles.subHeader}>Entrez votre numéro pour commencer.</Text>
+      <View style={styles.inputContainer}>
+        <Icon
+          name="phone"
+          size={24}
+          color={theme.primary}
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: 061234567"
+          keyboardType="phone-pad"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          placeholderTextColor={theme.textSecondary}
+        />
       </View>
-    );
-  }
+      <TouchableOpacity onPress={handleSendOtp} disabled={loading}>
+        <LinearGradient
+          colors={[theme.primary, theme.success]}
+          style={styles.ctaButton}>
+          <Text style={styles.ctaText}>Envoyer le code</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    </>
+  );
+
+  const renderOtpInput = () => (
+    <>
+      <Text style={styles.header}>Vérification</Text>
+      <Text style={styles.subHeader}>
+        Nous avons envoyé un code à {phoneNumber}
+      </Text>
+      <View style={styles.inputContainer}>
+        <Icon
+          name="numeric-6-box-multiple-outline"
+          size={24}
+          color={theme.primary}
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="123456"
+          keyboardType="numeric"
+          value={otp}
+          onChangeText={setOtp}
+          placeholderTextColor={theme.textSecondary}
+        />
+      </View>
+      <TouchableOpacity onPress={handleVerifyOtp} disabled={loading}>
+        <LinearGradient
+          colors={[theme.primary, theme.success]}
+          style={styles.ctaButton}>
+          <Text style={styles.ctaText}>Vérifier le code</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    </>
+  );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Authentification</Text>
-      {!otpSent ? (
-        <>
-          <Text>Entrez votre numéro de téléphone</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Ex: 061234567"
-            keyboardType="phone-pad"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            editable={!otpSent}
-          />
-          <Button
-            title="Envoyer le code"
-            onPress={handleSendOtp}
-            disabled={loading}
-          />
-        </>
-      ) : (
-        <>
-          <Text style={styles.phoneLockText}>Numéro : {phoneNumber}</Text>
-          <Text>Entrez le code reçu par SMS</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="123456"
-            keyboardType="numeric"
-            value={otp}
-            onChangeText={setOtp}
-          />
-          <Button
-            title="Vérifier le code"
-            onPress={handleVerifyOtp}
-            disabled={loading}
-          />
-        </>
-      )}
-      {loading && <ActivityIndicator size="large" color="#0000ff" />}
-      {error && (
-        <Text style={styles.errorText}>
-          Erreur: {error.message || 'Une erreur est survenue'}
-        </Text>
-      )}
-    </View>
+    <LinearGradient
+      colors={[theme.gradientStart, theme.gradientEnd]}
+      style={styles.safeArea}>
+      <SafeAreaView style={{flex: 1}}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={theme.gradientStart}
+        />
+        <View style={styles.container}>
+          <View style={styles.card}>
+            {!otpSent ? renderPhoneInput() : renderOtpInput()}
+
+            {loading && (
+              <ActivityIndicator
+                size="large"
+                color={theme.primary}
+                style={styles.loader}
+              />
+            )}
+            {error && (
+              <Text style={styles.errorText}>
+                Erreur: {error.message || 'Une erreur est survenue'}
+              </Text>
+            )}
+          </View>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    paddingHorizontal: 24,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+  card: {
+    backgroundColor: theme.surface,
+    borderRadius: 24,
+    padding: 24,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  header: {
+    fontSize: 28,
+    fontFamily: 'Roboto_900Black',
+    color: theme.textPrimary,
+    marginBottom: 8,
+  },
+  subHeader: {
+    fontSize: 16,
+    fontFamily: 'Roboto_400Regular',
+    color: theme.textSecondary,
+    marginBottom: 32,
+    textAlign: 'center',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.lightGreen,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(46, 125, 50, 0.2)',
+    width: '100%',
+    marginBottom: 24,
+  },
+  icon: {
+    paddingHorizontal: 16,
   },
   input: {
-    width: '100%',
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginVertical: 10,
+    flex: 1,
+    height: 56,
+    fontSize: 18,
+    fontFamily: 'Roboto_500Medium',
+    color: theme.textPrimary,
   },
-  phoneLockText: {
+  ctaButton: {
+    width: '100%',
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    shadowColor: theme.primary,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  ctaText: {
+    color: 'white',
     fontSize: 16,
-    color: 'gray',
-    marginBottom: 20,
+    fontFamily: 'Roboto_700Bold',
+    textTransform: 'uppercase',
+  },
+  loader: {
+    marginTop: 20,
   },
   errorText: {
-    color: 'red',
-    marginTop: 10,
+    color: theme.error,
+    marginTop: 16,
+    fontFamily: 'Roboto_500Medium',
+    fontSize: 14,
   },
 });
 
