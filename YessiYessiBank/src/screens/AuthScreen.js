@@ -19,12 +19,20 @@ const AuthScreen = () => {
     state => state.auth,
   );
 
+  const validateGabonPhoneNumber = number => {
+    // Regex pour les numéros gabonais : commence par 06 ou 07, suivi de 7 chiffres.
+    const gabonPhoneRegex = /^(06|07)\d{7}$/;
+    return gabonPhoneRegex.test(number);
+  };
+
   const handleSendOtp = () => {
-    if (phoneNumber.length >= 9) {
-      // Simple validation
+    if (validateGabonPhoneNumber(phoneNumber)) {
       dispatch(sendOtp(phoneNumber));
     } else {
-      Alert.alert('Erreur', 'Veuillez entrer un numéro de téléphone valide.');
+      Alert.alert(
+        'Erreur',
+        'Veuillez entrer un numéro de téléphone gabonais valide (ex: 06xxxxxxx ou 07xxxxxxx).',
+      );
     }
   };
 
