@@ -57,6 +57,7 @@ const AuthScreen = () => {
             keyboardType="phone-pad"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
+            editable={!otpSent}
           />
           <Button
             title="Envoyer le code"
@@ -66,6 +67,7 @@ const AuthScreen = () => {
         </>
       ) : (
         <>
+          <Text style={styles.phoneLockText}>Numéro : {phoneNumber}</Text>
           <Text>Entrez le code reçu par SMS</Text>
           <TextInput
             style={styles.input}
@@ -111,6 +113,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginVertical: 10,
+  },
+  phoneLockText: {
+    fontSize: 16,
+    color: 'gray',
+    marginBottom: 20,
   },
   errorText: {
     color: 'red',
