@@ -3,6 +3,13 @@ import {Provider, useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {View, Text, Button, ActivityIndicator} from 'react-native';
+import {
+  useFonts,
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+  Roboto_900Black,
+} from '@expo-google-fonts/roboto';
 
 import store from './src/store/store';
 import WelcomeScreen from './src/screens/WelcomeScreen';
@@ -30,13 +37,19 @@ const SplashScreen = () => (
 
 const RootNavigator = () => {
   const {isAuthenticated, appIsReady} = useSelector(state => state.auth);
+  const [fontsLoaded] = useFonts({
+    Roboto_400Regular,
+    Roboto_500Medium,
+    Roboto_700Bold,
+    Roboto_900Black,
+  });
 
   useEffect(() => {
     // Note: Le store est directement utilisé ici car ce composant est en dehors du Provider
     store.dispatch(checkAuth());
   }, []);
 
-  if (!appIsReady) {
+  if (!appIsReady || !fontsLoaded) {
     return <SplashScreen />;
   }
 
