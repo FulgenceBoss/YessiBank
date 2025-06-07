@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# React Native
+android/app/build/
+ios/Pods/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Env
+.env
+.env.*
+
+# Expo
+.expo/
+.expo-shared/
+
+# Git
+.git/
+
+# Autres
+*.swp
+*.swo
+ 
