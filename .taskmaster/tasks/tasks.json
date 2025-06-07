@@ -1,0 +1,892 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Setup Development Environment and Project Structure",
+      "description": "Initialize React Native project with Expo framework, configure Redux Toolkit for state management, and setup Node.js backend with Express.js",
+      "details": "1. Initialize Expo React Native project: `npx create-expo-app YessiYessiBank --template`\n2. Install Redux Toolkit: `npm install @reduxjs/toolkit react-redux`\n3. Setup backend: `npm init -y && npm install express cors helmet morgan dotenv`\n4. Configure project structure:\n   - /src/screens (for UI screens)\n   - /src/store (Redux store)\n   - /src/services (API calls)\n   - /backend/routes\n   - /backend/models\n5. Setup environment variables for development/production\n6. Configure ESLint and Prettier for code consistency",
+      "testStrategy": "Verify project builds successfully on both iOS and Android simulators. Test Redux store initialization and basic Express server startup.",
+      "priority": "high",
+      "dependencies": [],
+      "status": "done",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Initialize React Native Project with Expo",
+          "description": "Create a new React Native project using Expo CLI and set up the initial application structure",
+          "dependencies": [],
+          "details": "Run `npx create-expo-app YessiYessiBank --template` to initialize the project. Choose a blank template for maximum flexibility. After initialization, verify the project structure and ensure it runs correctly with `npx expo start`.",
+          "status": "done",
+          "testStrategy": "Verify the app launches in Expo Go on a physical device or simulator/emulator without errors"
+        },
+        {
+          "id": 2,
+          "title": "Install and Configure State Management Dependencies",
+          "description": "Install Redux Toolkit and React Redux for state management, and set up the basic store configuration",
+          "dependencies": [
+            1
+          ],
+          "details": "Run `npm install @reduxjs/toolkit react-redux`. Create the Redux store in `/src/store/index.js` with a basic configuration. Set up a root reducer and configure the store with middleware. Wrap the main App component with Redux Provider in App.js.",
+          "status": "done",
+          "testStrategy": "Create a simple slice and verify state changes are properly reflected in the UI"
+        },
+        {
+          "id": 3,
+          "title": "Setup Node.js Backend with Express",
+          "description": "Initialize a Node.js backend project with Express.js and configure essential middleware",
+          "dependencies": [],
+          "details": "In the project root, create a `/backend` directory. Run `npm init -y` inside it. Install dependencies with `npm install express cors helmet morgan dotenv`. Create `server.js` with basic Express configuration including middleware setup. Implement a simple health check endpoint at `/api/health`.",
+          "status": "done",
+          "testStrategy": "Test the health endpoint with a tool like Postman or curl to ensure the server responds correctly"
+        },
+        {
+          "id": 4,
+          "title": "Create Project Folder Structure",
+          "description": "Set up the organized folder structure for both frontend and backend components",
+          "dependencies": [
+            1,
+            3
+          ],
+          "details": "In the React Native project, create the following directories: `/src/screens`, `/src/components`, `/src/store`, `/src/services`, `/src/utils`, `/src/assets`. In the backend, create: `/backend/routes`, `/backend/controllers`, `/backend/models`, `/backend/middleware`, `/backend/config`. Add placeholder files (e.g., `.gitkeep`) to maintain empty directories in version control.",
+          "status": "done",
+          "testStrategy": "Verify all directories exist and follow the planned structure"
+        },
+        {
+          "id": 5,
+          "title": "Configure Environment Variables and Settings",
+          "description": "Set up environment configuration for both frontend and backend to support different environments",
+          "dependencies": [
+            1,
+            3
+          ],
+          "details": "For the backend, create `.env` and `.env.example` files with configuration variables (DB connection, API keys, ports). For the React Native app, install `react-native-dotenv` and configure it in `babel.config.js`. Create environment-specific files (`.env.development`, `.env.production`). Add configuration for API base URLs, feature flags, and other environment-specific settings.",
+          "status": "done",
+          "testStrategy": "Test loading environment variables in both frontend and backend code to ensure they're accessible"
+        },
+        {
+          "id": 6,
+          "title": "Setup Development Tools and Verification",
+          "description": "Configure code quality tools and perform verification testing of the complete environment",
+          "dependencies": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "details": "Install and configure ESLint and Prettier with `npm install --save-dev eslint prettier eslint-config-prettier`. Create configuration files (`.eslintrc.js`, `.prettierrc`). Set up VS Code settings for the project. Configure Git hooks with Husky for pre-commit linting. Create npm scripts in package.json for common development tasks. Perform an end-to-end verification by running both frontend and backend simultaneously.",
+          "status": "done",
+          "testStrategy": "Run linting on both codebases, verify hot reloading works, and test communication between frontend and backend with a simple API call"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Setup MongoDB Database and User Schema",
+      "description": "Configure MongoDB Atlas connection and create user data models for authentication and profile management",
+      "details": "1. Setup MongoDB Atlas cluster\n2. Install mongoose: `npm install mongoose`\n3. Create User schema with fields:\n   - phoneNumber (unique, required)\n   - isVerified (boolean)\n   - createdAt, updatedAt\n   - profile (name, preferences)\n   - savingsConfig (amount, frequency)\n4. Create database connection utility\n5. Setup environment variables for MongoDB connection string\n6. Implement basic CRUD operations for users",
+      "testStrategy": "Test database connection, user creation, and basic queries. Verify schema validation works correctly.",
+      "priority": "high",
+      "dependencies": [
+        1
+      ],
+      "status": "done",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Setup MongoDB Atlas Cluster and Environment Configuration",
+          "description": "Create a MongoDB Atlas cluster and configure environment variables for secure database connection",
+          "dependencies": [],
+          "details": "1. Create a MongoDB Atlas account if not already done\n2. Set up a new cluster with appropriate region and specifications\n3. Configure network access to allow connections from development environment\n4. Create a database user with appropriate permissions\n5. Create a .env file in the project root\n6. Add MONGODB_URI environment variable with the connection string\n7. Install dotenv package: `npm install dotenv`\n8. Create a config.js file that loads environment variables",
+          "status": "done",
+          "testStrategy": "Verify environment variables are correctly loaded by creating a simple script that logs the connection string (with password masked)"
+        },
+        {
+          "id": 2,
+          "title": "Install Mongoose and Create Database Connection Utility",
+          "description": "Set up Mongoose ODM and create a reusable connection utility for the application",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Install mongoose: `npm install mongoose`\n2. Create a db.js utility file in a 'utils' or 'config' directory\n3. Implement connection function using the MongoDB URI from environment variables\n4. Add connection event listeners (connected, error, disconnected)\n5. Implement connection pooling configuration\n6. Add reconnection logic with exponential backoff\n7. Export the connection instance\n8. Create a test function to verify connection",
+          "status": "done",
+          "testStrategy": "Create a simple test script that attempts to connect to the database and logs success or failure"
+        },
+        {
+          "id": 3,
+          "title": "Design and Implement User Schema with Validation",
+          "description": "Create the Mongoose User schema with all required fields and validation rules",
+          "dependencies": [
+            2
+          ],
+          "details": "1. Create a models directory\n2. Create User.js model file\n3. Define the User schema with the following fields:\n   - phoneNumber (String, unique, required, with validation regex)\n   - isVerified (Boolean, default: false)\n   - createdAt, updatedAt (Date, with timestamps option)\n   - profile: subdocument with name (String) and preferences (Object)\n   - savingsConfig: subdocument with amount (Number) and frequency (String, enum)\n4. Add appropriate validation for each field\n5. Add pre-save hooks for any data processing\n6. Create indexes for frequently queried fields\n7. Export the User model",
+          "status": "done",
+          "testStrategy": "Create a test script that validates sample user objects against the schema to ensure validation rules work correctly"
+        },
+        {
+          "id": 4,
+          "title": "Implement Basic CRUD Operations for User Model",
+          "description": "Create utility functions for creating, reading, updating, and deleting user records",
+          "dependencies": [
+            3
+          ],
+          "details": "1. Create a services directory\n2. Create userService.js file\n3. Implement the following functions:\n   - createUser(userData): Creates a new user\n   - getUserByPhone(phoneNumber): Retrieves user by phone number\n   - getUserById(id): Retrieves user by ID\n   - updateUser(id, updates): Updates user data\n   - deleteUser(id): Removes a user\n   - verifyUser(id): Sets isVerified to true\n   - updateSavingsConfig(id, config): Updates savings configuration\n4. Add proper error handling for each function\n5. Export all functions as a service module",
+          "status": "done",
+          "testStrategy": "Write unit tests for each CRUD operation using a test framework like Jest, with a test database configuration"
+        },
+        {
+          "id": 5,
+          "title": "Create Database Integration Tests and Documentation",
+          "description": "Develop comprehensive tests for the database integration and document the database setup",
+          "dependencies": [
+            4
+          ],
+          "details": "1. Create a test directory with a database subdirectory\n2. Set up a test database configuration that uses a separate test database\n3. Implement integration tests for:\n   - Database connection\n   - User creation with validation\n   - User retrieval operations\n   - Update operations\n   - Delete operations\n   - Edge cases and error handling\n4. Create a DATABASE.md documentation file explaining:\n   - Database structure\n   - Schema design decisions\n   - How to connect to development/production databases\n   - Common operations and examples\n5. Add database setup instructions to the main README.md",
+          "status": "done",
+          "testStrategy": "Run the integration test suite against a test database to verify all operations work correctly in an isolated environment"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Implement OTP Authentication System",
+      "description": "Develop phone number-based authentication with SMS OTP verification using JWT tokens",
+      "details": "1. Install dependencies: `npm install jsonwebtoken bcryptjs twilio` (or SMS service)\n2. Create OTP model with fields: phoneNumber, code, expiresAt, isUsed\n3. Implement OTP generation (6-digit random number)\n4. Setup SMS service integration (Twilio or local Gabonese SMS provider)\n5. Create authentication middleware for JWT verification\n6. Implement endpoints:\n   - POST /auth/send-otp (send OTP to phone)\n   - POST /auth/verify-otp (verify OTP and return JWT)\n   - POST /auth/refresh-token\n7. Add rate limiting for OTP requests",
+      "testStrategy": "Test OTP generation, SMS sending, verification flow, and JWT token validation. Test rate limiting and expired OTP handling.",
+      "priority": "high",
+      "dependencies": [
+        2
+      ],
+      "status": "done",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create OTP Model and Database Schema",
+          "description": "Design and implement the OTP model with required fields for storing and validating one-time passwords",
+          "dependencies": [],
+          "details": "Create a MongoDB schema with fields: phoneNumber (string, indexed), code (string, 6 digits), expiresAt (Date), isUsed (boolean). Include methods for validation and expiration checking. Install dependencies: mongoose, jsonwebtoken, bcryptjs, twilio (or local SMS provider).",
+          "status": "done",
+          "testStrategy": "Unit test the model with various inputs to ensure validation works correctly. Test expiration logic with mocked timestamps."
+        },
+        {
+          "id": 2,
+          "title": "Implement Secure OTP Generation Logic",
+          "description": "Create a service to generate cryptographically secure 6-digit OTP codes with proper expiration handling",
+          "dependencies": [
+            1
+          ],
+          "details": "Create an OTPService with methods to generate random 6-digit codes using crypto module. Set expiration time (5-10 minutes). Implement function to validate if an OTP is valid, not expired, and not previously used. Store generated OTPs in the database with phone number and expiration.",
+          "status": "done",
+          "testStrategy": "Test randomness and distribution of generated codes. Ensure codes are always 6 digits and properly stored with expiration timestamps."
+        },
+        {
+          "id": 3,
+          "title": "Integrate SMS Service for OTP Delivery",
+          "description": "Set up and configure SMS service integration to deliver OTP codes to user phone numbers",
+          "dependencies": [
+            2
+          ],
+          "details": "Create an SMSService that abstracts the SMS provider (Twilio or local Gabonese provider). Implement configuration with environment variables for API keys. Create methods to send formatted OTP messages with proper error handling and logging. Include retry logic for failed deliveries.",
+          "status": "done",
+          "testStrategy": "Mock SMS provider API for testing. Verify correct formatting of messages and proper error handling. Test with invalid phone numbers and API failures."
+        },
+        {
+          "id": 4,
+          "title": "Implement JWT Token Management",
+          "description": "Create service for generating, validating, and refreshing JWT tokens for authenticated sessions",
+          "dependencies": [
+            1
+          ],
+          "details": "Create TokenService with methods to generate JWTs containing user ID and phone number. Implement token signing with secret key from environment variables. Add token expiration (e.g., 24 hours). Create methods for token verification and refresh token generation with longer expiration. Store refresh tokens securely.",
+          "status": "done",
+          "testStrategy": "Test token generation, verification, and refresh flows. Ensure expired tokens are rejected and refresh tokens work correctly."
+        },
+        {
+          "id": 5,
+          "title": "Create Authentication Middleware",
+          "description": "Develop middleware to verify JWT tokens and protect routes requiring authentication",
+          "dependencies": [
+            4
+          ],
+          "details": "Create middleware function that extracts JWT from Authorization header. Verify token validity using TokenService. Add user information to request object for authenticated routes. Handle and return appropriate error responses for invalid or expired tokens. Implement optional role-based authorization checks.",
+          "status": "done",
+          "testStrategy": "Test middleware with valid tokens, expired tokens, and malformed tokens. Verify protected routes reject unauthenticated requests."
+        },
+        {
+          "id": 6,
+          "title": "Implement Authentication API Endpoints",
+          "description": "Create REST API endpoints for OTP sending, verification, and token refresh operations",
+          "dependencies": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "details": "Implement three endpoints: 1) POST /auth/send-otp - validates phone number, generates OTP, sends SMS; 2) POST /auth/verify-otp - validates submitted OTP, marks as used, returns JWT if valid; 3) POST /auth/refresh-token - issues new access token using refresh token. Include proper request validation, error handling, and response formatting.",
+          "status": "done",
+          "testStrategy": "Integration tests for each endpoint with valid and invalid inputs. Test complete authentication flow from OTP request through verification to using protected routes."
+        },
+        {
+          "id": 7,
+          "title": "Implement Rate Limiting and Security Enhancements",
+          "description": "Add rate limiting for OTP requests and implement additional security measures",
+          "dependencies": [
+            6
+          ],
+          "details": "Integrate express-rate-limit middleware for OTP endpoints (e.g., max 3 requests per phone number per hour). Add IP-based rate limiting as secondary protection. Implement logging for security events. Add phone number validation and sanitization. Consider implementing temporary account lockout after multiple failed verification attempts. Document security measures for the team.",
+          "status": "done",
+          "testStrategy": "Test rate limiting by making rapid sequential requests. Verify lockout functionality works correctly. Perform security review of the entire authentication flow."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Create Onboarding Screens (Screens 1-3)",
+      "description": "Develop welcome, phone registration, and OTP verification screens following the design system",
+      "details": "1. Create screens following @DesignSystem specifications:\n   - WelcomeScreen (Screen 1): App introduction and CTA\n   - PhoneRegistrationScreen (Screen 2): Phone input with Gabonese validation\n   - OTPVerificationScreen (Screen 3): 6-digit code input\n2. Implement phone number validation for Gabonese format\n3. Add loading states and error handling\n4. Implement navigation flow between screens\n5. Add form validation and user feedback\n6. Integrate with authentication API endpoints\n7. Store JWT token securely using Expo SecureStore",
+      "testStrategy": "Test complete onboarding flow, phone validation, OTP verification, error states, and navigation. Verify design system compliance.",
+      "priority": "high",
+      "dependencies": [
+        3
+      ],
+      "status": "in-progress",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create UI Components for Onboarding Screens",
+          "description": "Develop the UI components for all three onboarding screens following the design system specifications without functionality.",
+          "dependencies": [],
+          "details": "Create the WelcomeScreen with app introduction and CTA button, PhoneRegistrationScreen with phone input field and submit button, and OTPVerificationScreen with 6-digit code input fields. Use the @DesignSystem components for consistent styling. Focus only on the visual elements at this stage, without implementing validation or navigation logic.",
+          "status": "pending",
+          "testStrategy": "Verify UI components match design specifications through visual inspection and snapshot tests."
+        },
+        {
+          "id": 2,
+          "title": "Implement Phone Number Validation",
+          "description": "Add Gabonese phone number format validation to the PhoneRegistrationScreen.",
+          "dependencies": [
+            1
+          ],
+          "details": "Create a validation utility that checks if the phone number follows Gabonese format. Implement real-time validation feedback as the user types. Show appropriate error messages for invalid inputs. Enable/disable the submit button based on validation status.",
+          "status": "pending",
+          "testStrategy": "Unit test the validation function with various valid and invalid Gabonese phone numbers. Test UI feedback for different input scenarios."
+        },
+        {
+          "id": 3,
+          "title": "Implement Form Validation and User Feedback",
+          "description": "Add form validation to all screens and implement user feedback mechanisms including loading states and error handling.",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Add form validation to the OTP screen for 6-digit code. Implement loading indicators for async operations. Create error handling components to display API errors or validation issues. Add success feedback for completed actions. Ensure all forms prevent submission when validation fails.",
+          "status": "pending",
+          "testStrategy": "Test form submission with valid and invalid inputs. Verify loading states appear during async operations and error messages display correctly."
+        },
+        {
+          "id": 4,
+          "title": "Set Up Navigation Flow Between Screens",
+          "description": "Implement the navigation flow between the three onboarding screens.",
+          "dependencies": [
+            1,
+            3
+          ],
+          "details": "Configure React Navigation to handle transitions between WelcomeScreen, PhoneRegistrationScreen, and OTPVerificationScreen. Implement navigation logic in response to user actions (button presses, form submissions). Add navigation guards to prevent accessing screens out of sequence.",
+          "status": "pending",
+          "testStrategy": "Test navigation flow by simulating user journey through all screens. Verify correct screen transitions and that navigation guards prevent improper access."
+        },
+        {
+          "id": 5,
+          "title": "Integrate with Authentication API Endpoints",
+          "description": "Connect the onboarding screens to the authentication API endpoints for phone registration and OTP verification.",
+          "dependencies": [
+            3,
+            4
+          ],
+          "details": "Implement API service functions to handle phone number submission and OTP verification. Connect form submissions to API calls. Handle API responses including success and error cases. Update UI based on API responses. Implement retry logic for failed requests.",
+          "status": "pending",
+          "testStrategy": "Mock API endpoints to test successful and failed requests. Verify UI updates correctly based on API responses."
+        },
+        {
+          "id": 6,
+          "title": "Implement Secure Token Storage",
+          "description": "Store and manage JWT authentication tokens securely using Expo SecureStore.",
+          "dependencies": [
+            5
+          ],
+          "details": "Implement utility functions to securely store JWT tokens using Expo SecureStore after successful authentication. Create functions to retrieve and clear tokens. Add token validation logic. Implement automatic navigation to main app screens when valid token exists. Handle token expiration scenarios.",
+          "status": "pending",
+          "testStrategy": "Test token storage, retrieval, and clearing functions. Verify automatic navigation based on token presence. Test token expiration handling."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Develop Payment Simulation API",
+      "description": "Create mock payment API to simulate Airtel Money and Moov Money transactions for development",
+      "details": "1. Create payment simulation endpoints:\n   - POST /payments/simulate/deposit (simulate money deposit)\n   - POST /payments/simulate/authorize (simulate account linking)\n   - GET /payments/simulate/balance (simulate account balance)\n2. Implement realistic response delays (1-3 seconds)\n3. Add success/failure scenarios (90% success rate)\n4. Create transaction logging for debugging\n5. Implement webhook simulation for async notifications\n6. Add different response scenarios:\n   - Successful transactions\n   - Insufficient funds\n   - Network timeouts\n   - Invalid account errors",
+      "testStrategy": "Test all simulation endpoints, verify realistic delays, test error scenarios, and validate transaction logging.",
+      "priority": "high",
+      "dependencies": [
+        2
+      ],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create Payment Simulation Endpoints",
+          "description": "Implement the core API endpoints for simulating payment transactions including deposit, authorization, and balance checking.",
+          "dependencies": [],
+          "details": "Create Express.js routes for the three main endpoints: POST /payments/simulate/deposit, POST /payments/simulate/authorize, and GET /payments/simulate/balance. Each endpoint should accept appropriate parameters (e.g., amount, accountId, provider) and return standardized JSON responses. Implement basic request validation to ensure required fields are present and have valid formats. Structure the code to allow for provider-specific logic (Airtel Money vs Moov Money) with shared utilities.",
+          "status": "pending",
+          "testStrategy": "Write unit tests for each endpoint using Jest, testing both valid inputs and validation error cases. Use supertest for API integration testing."
+        },
+        {
+          "id": 2,
+          "title": "Implement Realistic Response Delays",
+          "description": "Add configurable delay mechanisms to simulate real-world network latency in payment processing.",
+          "dependencies": [
+            1
+          ],
+          "details": "Create a delay utility function that returns a Promise resolving after a random time between 1-3 seconds. Integrate this delay function into each endpoint's request handler. Make the delay configurable via environment variables to allow for faster testing when needed. Consider implementing variable delays based on transaction type or provider to simulate different network conditions.",
+          "status": "pending",
+          "testStrategy": "Test the delay functionality by measuring response times. Create tests with timeout assertions to verify delays fall within expected ranges."
+        },
+        {
+          "id": 3,
+          "title": "Implement Success/Failure Scenarios",
+          "description": "Add logic to simulate various transaction outcomes including successes and different failure modes based on configurable probability.",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Create a transaction outcome simulator that returns success/failure based on a 90% success rate by default. For failure cases, implement different error types: insufficient funds, network timeouts, invalid account errors, and other provider-specific errors. Each error should return appropriate HTTP status codes and structured error responses. Make the success rate configurable for testing edge cases.",
+          "status": "pending",
+          "testStrategy": "Test the distribution of success/failure outcomes over multiple calls. Write tests for each specific error scenario to ensure proper error codes and messages are returned."
+        },
+        {
+          "id": 4,
+          "title": "Create Transaction Logging System",
+          "description": "Implement a comprehensive logging system to record all simulated transactions for debugging and analysis.",
+          "dependencies": [
+            1,
+            3
+          ],
+          "details": "Create a transaction logger that records details of each request, response, and simulated outcome. Store logs in both memory (for quick access) and optionally to a file. Include transaction ID, timestamp, request parameters, response details, simulated delays, and error information if applicable. Implement an endpoint (GET /payments/simulate/logs) to retrieve recent transaction logs for debugging.",
+          "status": "pending",
+          "testStrategy": "Verify logs are created for each transaction type. Test log retrieval functionality and ensure sensitive data is properly handled."
+        },
+        {
+          "id": 5,
+          "title": "Set Up Webhook Notification System",
+          "description": "Implement asynchronous webhook notifications to simulate payment provider callbacks after transaction processing.",
+          "dependencies": [
+            1,
+            3,
+            4
+          ],
+          "details": "Create a webhook dispatcher that sends notifications to a configurable callback URL after transaction processing. Implement a delay mechanism to simulate realistic async behavior (5-10 seconds after initial request). Include transaction details, status, and provider-specific response codes in the webhook payload. Add webhook event logging to the transaction logging system. Provide a configuration endpoint to register webhook URLs for testing.",
+          "status": "pending",
+          "testStrategy": "Set up a test webhook receiver to verify payloads are correctly formatted and delivered. Test webhook reliability under various conditions including network errors and retries."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Implement Savings Configuration (Screens 4-5)",
+      "description": "Create screens for setting up automatic savings amount and linking Mobile Money accounts",
+      "details": "1. Create SavingsConfigScreen (Screen 4):\n   - Amount selector (100-25,000 FCFA)\n   - Frequency selection (daily for MVP)\n   - Visual feedback for selections\n2. Create AccountLinkingScreen (Screen 5):\n   - Mobile Money provider selection (Airtel/Moov)\n   - Account authorization flow\n   - Success/error feedback\n3. Implement savings configuration API:\n   - POST /users/savings-config\n   - PUT /users/savings-config\n4. Add form validation and user guidance\n5. Integrate with payment simulation API for account linking\n6. Store configuration securely in user profile",
+      "testStrategy": "Test amount validation, account linking simulation, configuration saving, and error handling. Verify UI follows design system.",
+      "priority": "medium",
+      "dependencies": [
+        4,
+        5
+      ],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create SavingsConfigScreen UI Components",
+          "description": "Implement the UI for the savings configuration screen (Screen 4) with amount selector and frequency selection",
+          "dependencies": [],
+          "details": "Create a new screen component with: 1) A slider or number input for amount selection (range 100-25,000 FCFA), 2) Radio buttons or dropdown for frequency selection (daily only for MVP), 3) Visual feedback elements showing selected values, 4) Next button to proceed to account linking. Use the app's design system for consistent styling.",
+          "status": "pending",
+          "testStrategy": "Write unit tests for input validation and component rendering. Test edge cases for amount selection (min/max values)."
+        },
+        {
+          "id": 2,
+          "title": "Implement AccountLinkingScreen UI",
+          "description": "Create the UI for linking Mobile Money accounts (Screen 5) with provider selection and authorization flow",
+          "dependencies": [
+            1
+          ],
+          "details": "Develop a screen with: 1) Provider selection buttons for Airtel and Moov, 2) Input fields for account details, 3) Connect button to initiate authorization, 4) Loading states during authorization, 5) Success/error message components. Include back button to return to savings configuration.",
+          "status": "pending",
+          "testStrategy": "Test component rendering and state transitions between different UI states (initial, loading, success, error)."
+        },
+        {
+          "id": 3,
+          "title": "Implement Savings Configuration API Integration",
+          "description": "Connect the UI to backend APIs for saving user configuration and account linking",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Implement API service functions for: 1) POST /users/savings-config to create new configuration, 2) PUT /users/savings-config to update existing configuration, 3) Integrate with payment simulation API for account linking verification. Handle API responses and error states appropriately.",
+          "status": "pending",
+          "testStrategy": "Write mock tests for API calls. Test successful responses and various error scenarios."
+        },
+        {
+          "id": 4,
+          "title": "Add Form Validation and Error Handling",
+          "description": "Implement client-side validation and comprehensive error handling for both screens",
+          "dependencies": [
+            1,
+            2,
+            3
+          ],
+          "details": "Add validation for: 1) Amount input (within range, numeric), 2) Required field validation for account details, 3) Contextual error messages for validation failures, 4) Network error handling with retry options, 5) User guidance tooltips for form fields. Ensure all error states are handled gracefully with clear user feedback.",
+          "status": "pending",
+          "testStrategy": "Test validation logic with valid and invalid inputs. Verify error messages display correctly for different error scenarios."
+        },
+        {
+          "id": 5,
+          "title": "Implement Secure Configuration Storage",
+          "description": "Store user's savings configuration securely in the user profile and handle configuration persistence",
+          "dependencies": [
+            3,
+            4
+          ],
+          "details": "Implement: 1) Secure storage of configuration in user profile, 2) Encryption for sensitive account details, 3) Configuration retrieval on app startup, 4) Caching mechanism for offline access, 5) Configuration update workflow. Ensure all sensitive data is handled according to security best practices.",
+          "status": "pending",
+          "testStrategy": "Test data persistence across app restarts. Verify secure storage implementation with security audit tools."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Create Transaction and Savings Models",
+      "description": "Develop database schemas for transactions, savings goals, and automatic savings logic",
+      "details": "1. Create Transaction schema:\n   - userId, amount, type (auto/manual), status\n   - paymentProvider, transactionId, timestamp\n   - metadata (goal_id if applicable)\n2. Create SavingsGoal schema:\n   - userId, title, targetAmount, currentAmount\n   - createdAt, targetDate, isCompleted\n3. Create automatic savings CRON job:\n   - Daily execution for all active users\n   - Integration with payment simulation API\n   - Error handling and retry logic\n4. Implement transaction service methods:\n   - createTransaction, updateTransactionStatus\n   - calculateTotalSavings, getTransactionHistory\n5. Add transaction status tracking (pending, completed, failed)",
+      "testStrategy": "Test transaction creation, CRON job execution, goal tracking, and data integrity. Verify automatic savings logic works correctly.",
+      "priority": "medium",
+      "dependencies": [
+        2
+      ],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Design and Implement Transaction Schema",
+          "description": "Create the database schema for transactions with all required fields and indexes",
+          "dependencies": [],
+          "details": "Create a Transaction model with fields: userId (reference to User), amount (decimal), type (enum: 'auto', 'manual'), status (enum: 'pending', 'completed', 'failed'), paymentProvider (string), transactionId (string), timestamp (Date), and metadata (object with goal_id if applicable). Add appropriate indexes for userId and status for efficient querying. Implement validation for required fields and data types.",
+          "status": "pending",
+          "testStrategy": "Write unit tests to verify schema validation, required fields, and default values. Test creating transactions with various field combinations."
+        },
+        {
+          "id": 2,
+          "title": "Design and Implement SavingsGoal Schema",
+          "description": "Create the database schema for savings goals with all required fields and indexes",
+          "dependencies": [],
+          "details": "Create a SavingsGoal model with fields: userId (reference to User), title (string), targetAmount (decimal), currentAmount (decimal, default 0), createdAt (Date), targetDate (Date), isCompleted (boolean, default false). Add indexes for userId and isCompleted. Implement validation for required fields, ensuring targetAmount is positive and targetDate is in the future.",
+          "status": "pending",
+          "testStrategy": "Write unit tests to verify schema validation, required fields, and default values. Test creating goals with various completion statuses and target dates."
+        },
+        {
+          "id": 3,
+          "title": "Implement Core Transaction Service Methods",
+          "description": "Create service methods for transaction creation, status updates, and retrieval",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Implement the following methods in a TransactionService: createTransaction (creates new transaction record), updateTransactionStatus (updates status field with proper validation), calculateTotalSavings (aggregates transaction amounts by userId), and getTransactionHistory (retrieves paginated transaction list with filters). Include proper error handling and validation in each method.",
+          "status": "pending",
+          "testStrategy": "Write unit tests for each service method with various input scenarios. Mock database interactions to test business logic independently."
+        },
+        {
+          "id": 4,
+          "title": "Develop Automatic Savings Logic",
+          "description": "Implement the core logic for automatic savings calculations and goal allocation",
+          "dependencies": [
+            1,
+            2,
+            3
+          ],
+          "details": "Create an AutomaticSavingsService with methods to: calculateSavingsAmount (determines amount to save based on user preferences), allocateToGoals (distributes savings across user's active goals based on priority/rules), and processAutomaticSaving (combines the previous methods and creates a transaction). Implement business rules for maximum savings limits and goal prioritization.",
+          "status": "pending",
+          "testStrategy": "Write unit tests for savings calculation with different user preferences. Test goal allocation with various scenarios (multiple goals, completed goals, etc.)."
+        },
+        {
+          "id": 5,
+          "title": "Implement CRON Job for Automatic Savings",
+          "description": "Create a scheduled job to process automatic savings for all active users",
+          "dependencies": [
+            4
+          ],
+          "details": "Set up a daily CRON job using a task scheduler (like node-cron) that: 1) Retrieves all active users, 2) For each user, calls the AutomaticSavingsService.processAutomaticSaving method, 3) Integrates with the payment simulation API to process the actual transaction, 4) Updates transaction status based on payment API response. Implement proper logging for job execution and completion.",
+          "status": "pending",
+          "testStrategy": "Create integration tests that verify the CRON job execution flow. Mock the payment API to test different response scenarios."
+        },
+        {
+          "id": 6,
+          "title": "Implement Error Handling and Retry Mechanism",
+          "description": "Add robust error handling and retry logic for failed transactions",
+          "dependencies": [
+            3,
+            5
+          ],
+          "details": "Create a RetryService that: 1) Identifies failed transactions, 2) Implements exponential backoff retry logic, 3) Sets maximum retry attempts, 4) Updates transaction status appropriately after retries, 5) Notifies users of permanently failed transactions. Add comprehensive error logging with transaction details. Implement a separate CRON job to periodically retry failed transactions.",
+          "status": "pending",
+          "testStrategy": "Test retry logic with simulated failures. Verify exponential backoff timing. Test maximum retry limit behavior and status updates after retries."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Develop Dashboard Screen (Screen 6)",
+      "description": "Create main dashboard showing total savings, recent activity, and goal progress",
+      "details": "1. Create DashboardScreen with components:\n   - Total savings balance display\n   - Recent transactions summary (last 5)\n   - Savings goals progress indicators\n   - Quick action buttons (manual savings, view history)\n2. Implement dashboard API endpoints:\n   - GET /dashboard/summary\n   - GET /dashboard/recent-activity\n3. Add pull-to-refresh functionality\n4. Implement real-time balance updates\n5. Add motivational elements (progress animations, achievements)\n6. Ensure responsive design for different screen sizes\n7. Add loading states and error handling",
+      "testStrategy": "Test data loading, refresh functionality, progress calculations, and responsive design. Verify real-time updates work correctly.",
+      "priority": "medium",
+      "dependencies": [
+        7
+      ],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create Dashboard UI Components",
+          "description": "Develop the core UI components for the dashboard screen including total savings display, recent transactions list, goal progress indicators, and quick action buttons.",
+          "dependencies": [],
+          "details": "Create a DashboardScreen component with styled subcomponents: SavingsBalanceCard (displays total amount with currency formatting), RecentTransactionsList (shows last 5 transactions with date, amount, and category), GoalProgressSection (visual progress bars for each savings goal), and ActionButtonsRow (contains Add Savings and View History buttons). Use skeleton loaders for initial loading states.",
+          "status": "pending",
+          "testStrategy": "Create snapshot tests for each component. Test responsive layout on different screen sizes. Verify accessibility compliance."
+        },
+        {
+          "id": 2,
+          "title": "Implement Dashboard API Integration",
+          "description": "Create API service functions to fetch dashboard data and integrate them with the UI components.",
+          "dependencies": [
+            1
+          ],
+          "details": "Implement API service functions for GET /dashboard/summary (returns total balance, goal summaries) and GET /dashboard/recent-activity (returns last 5 transactions). Create data models for API responses. Add error handling with appropriate user feedback. Implement data transformation functions to convert API responses to component-ready formats.",
+          "status": "pending",
+          "testStrategy": "Write unit tests for API service functions with mock responses. Test error handling scenarios."
+        },
+        {
+          "id": 3,
+          "title": "Add Pull-to-Refresh and Loading States",
+          "description": "Implement pull-to-refresh functionality and proper loading states for all dashboard components.",
+          "dependencies": [
+            2
+          ],
+          "details": "Add pull-to-refresh gesture handler to refresh all dashboard data. Implement loading indicators for initial load and refresh actions. Create error states with retry options for failed API calls. Ensure smooth transitions between loading, error, and data states.",
+          "status": "pending",
+          "testStrategy": "Test pull-to-refresh functionality with simulated network delays. Verify loading states appear appropriately during data fetching."
+        },
+        {
+          "id": 4,
+          "title": "Implement Real-Time Balance Updates",
+          "description": "Set up real-time updates for dashboard data using WebSockets or polling.",
+          "dependencies": [
+            2
+          ],
+          "details": "Implement either WebSocket connection or efficient polling mechanism to receive balance and transaction updates. Add visual indicators when data changes (subtle animations). Ensure updates are throttled appropriately to prevent UI flicker. Handle connection errors gracefully with automatic reconnection.",
+          "status": "pending",
+          "testStrategy": "Test update mechanism with simulated data changes. Verify UI updates correctly when new data arrives. Test reconnection logic."
+        },
+        {
+          "id": 5,
+          "title": "Optimize Responsive Design and Performance",
+          "description": "Ensure the dashboard is fully responsive and performs well on all device sizes.",
+          "dependencies": [
+            1,
+            3,
+            4
+          ],
+          "details": "Implement responsive layouts using flexbox/grid for different screen sizes. Optimize component rendering with memoization and virtualized lists for transaction history. Implement lazy loading for non-critical dashboard elements. Add performance monitoring to identify bottlenecks.",
+          "status": "pending",
+          "testStrategy": "Test on multiple device sizes. Measure and benchmark render times and memory usage. Verify smooth scrolling and animations."
+        },
+        {
+          "id": 6,
+          "title": "Add Motivational Elements and UX Enhancements",
+          "description": "Implement motivational features like progress animations, achievement notifications, and other UX improvements.",
+          "dependencies": [
+            5
+          ],
+          "details": "Create animated progress indicators that celebrate milestones. Implement achievement notifications when users reach savings goals or streaks. Add subtle micro-interactions and feedback animations. Include motivational messages based on savings behavior. Ensure all animations are performant and can be disabled for accessibility.",
+          "status": "pending",
+          "testStrategy": "Conduct usability testing to gauge user response to motivational elements. Test animation performance on lower-end devices. Verify accessibility when animations are disabled."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Implement Manual Savings Feature (Screen 7)",
+      "description": "Create interface for users to make one-time savings deposits",
+      "details": "1. Create ManualSavingsScreen:\n   - Amount input with validation (100-25,000 FCFA)\n   - Payment confirmation flow\n   - Success/failure feedback\n2. Implement manual savings API:\n   - POST /savings/manual-deposit\n   - Integration with payment simulation\n3. Add amount validation and user guidance\n4. Implement transaction confirmation flow\n5. Add loading states during payment processing\n6. Update dashboard balance after successful deposit\n7. Add transaction to history immediately",
+      "testStrategy": "Test amount validation, payment simulation integration, balance updates, and error handling. Verify transaction appears in history.",
+      "priority": "medium",
+      "dependencies": [
+        7
+      ],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create ManualSavingsScreen UI Components",
+          "description": "Build the user interface for the manual savings deposit screen with input validation and layout",
+          "dependencies": [],
+          "details": "1. Create a new screen component ManualSavingsScreen.js\n2. Implement amount input field with numeric keyboard\n3. Add validation to ensure amount is between 100-25,000 FCFA\n4. Display validation errors and user guidance text\n5. Create a 'Confirm' button that is enabled only when input is valid\n6. Add loading state indicators (spinner/skeleton)\n7. Design the layout according to the app's style guide",
+          "status": "pending",
+          "testStrategy": "Unit test the validation logic and UI rendering with different input values. Test that the confirm button is disabled for invalid amounts."
+        },
+        {
+          "id": 2,
+          "title": "Implement Manual Savings API Integration",
+          "description": "Create the API service to handle manual savings deposits and integrate with the payment simulation",
+          "dependencies": [],
+          "details": "1. Create a new API endpoint handler in the services directory\n2. Implement the POST /savings/manual-deposit endpoint integration\n3. Add proper error handling for network issues and server errors\n4. Create data models for request/response\n5. Implement payment simulation integration\n6. Add logging for debugging purposes\n7. Create mock responses for testing",
+          "status": "pending",
+          "testStrategy": "Write unit tests for API calls with mock responses. Test error handling for different HTTP status codes and network failures."
+        },
+        {
+          "id": 3,
+          "title": "Implement Transaction Confirmation Flow",
+          "description": "Create the confirmation dialog and payment processing flow with success/failure feedback",
+          "dependencies": [],
+          "details": "1. Create a confirmation dialog showing transaction details\n2. Implement back/confirm actions in the dialog\n3. Add loading state during API call\n4. Create success feedback screen with animation and details\n5. Create failure feedback with retry option\n6. Implement navigation flow between screens\n7. Add appropriate error messages for different failure scenarios",
+          "status": "pending",
+          "testStrategy": "Test the full flow with mocked API responses for both success and various failure cases. Verify that loading states display correctly during API calls."
+        },
+        {
+          "id": 4,
+          "title": "Implement Real-time Balance Updates and Transaction History",
+          "description": "Update the dashboard balance and transaction history immediately after a successful deposit",
+          "dependencies": [],
+          "details": "1. Create a state update mechanism for successful transactions\n2. Update the dashboard balance in real-time after deposit\n3. Add the new transaction to history immediately\n4. Implement local caching for offline viewing\n5. Create refresh mechanism for transaction list\n6. Add visual indicator for new transactions\n7. Ensure consistency between dashboard and transaction history",
+          "status": "pending",
+          "testStrategy": "Test that the balance updates correctly after transactions. Verify transaction appears in history with correct details. Test state persistence across app restarts."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Create Transaction History Screen (Screen 8)",
+      "description": "Develop comprehensive transaction history with filtering and search capabilities",
+      "details": "1. Create TransactionHistoryScreen:\n   - Chronological list of all transactions\n   - Transaction type indicators (auto/manual)\n   - Amount and date display\n   - Status indicators (completed/pending/failed)\n2. Implement history API:\n   - GET /transactions/history with pagination\n   - Query parameters for filtering (date range, type)\n3. Add infinite scroll or pagination\n4. Implement search and filter functionality\n5. Add export functionality (CSV/PDF)\n6. Include transaction details modal\n7. Add empty state for new users",
+      "testStrategy": "Test pagination, filtering, search functionality, and transaction details. Verify performance with large transaction lists.",
+      "priority": "medium",
+      "dependencies": [
+        7
+      ],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Implement Transaction History List UI",
+          "description": "Create the basic transaction history screen UI with chronological list of transactions, including type indicators, amount, date display, and status indicators.",
+          "dependencies": [],
+          "details": "Create a TransactionHistoryScreen component with a FlatList/RecyclerView to display transactions. Each transaction item should show: date, amount (with appropriate formatting), transaction type (auto/manual with icons), and status (completed/pending/failed with color coding). Include an empty state component for new users with no transaction history. Design should follow the app's style guide and be responsive.",
+          "status": "pending",
+          "testStrategy": "Write unit tests for the UI components. Test rendering with various transaction types and states. Verify empty state appears when no transactions exist."
+        },
+        {
+          "id": 2,
+          "title": "Implement Transaction History API Integration",
+          "description": "Connect the transaction history screen to the backend API with pagination support.",
+          "dependencies": [
+            1
+          ],
+          "details": "Create a service to fetch transaction history data from GET /transactions/history endpoint. Implement pagination by passing appropriate query parameters (page number, page size). Handle loading states, API errors, and retry mechanisms. Cache fetched transactions to improve performance. Implement data models for transaction objects.",
+          "status": "pending",
+          "testStrategy": "Write unit tests for API service with mocked responses. Test pagination logic, error handling, and data transformation."
+        },
+        {
+          "id": 3,
+          "title": "Add Infinite Scroll and Transaction Details Modal",
+          "description": "Implement infinite scroll functionality for the transaction list and a modal to display detailed transaction information.",
+          "dependencies": [
+            2
+          ],
+          "details": "Enhance the transaction list to load more items when user scrolls to the bottom. Show loading indicators during data fetching. Create a transaction details modal that appears when a user taps on a transaction item. The modal should display all transaction details including ID, timestamp, description, category, payment method, and full status information. Implement smooth animations for modal transitions.",
+          "status": "pending",
+          "testStrategy": "Test infinite scroll behavior with various network conditions. Verify modal displays correct information for different transaction types."
+        },
+        {
+          "id": 4,
+          "title": "Implement Search and Filter Functionality",
+          "description": "Add search capabilities and filtering options for the transaction history.",
+          "dependencies": [
+            2
+          ],
+          "details": "Create a search bar at the top of the screen. Implement filters for date range (with date pickers), transaction type, and status. Add filter chips/tags to show active filters. Update API requests to include search and filter parameters. Implement client-side filtering for already loaded transactions to improve responsiveness. Add clear filter button to reset all filters.",
+          "status": "pending",
+          "testStrategy": "Test search functionality with various queries. Verify filters correctly modify the displayed transactions. Test combinations of multiple filters."
+        },
+        {
+          "id": 5,
+          "title": "Add Export Functionality and Performance Optimization",
+          "description": "Implement export options for transaction history and optimize overall performance.",
+          "dependencies": [
+            3,
+            4
+          ],
+          "details": "Add export buttons for CSV and PDF formats. Create services to generate these file formats from transaction data. Implement file saving functionality appropriate for the platform. For performance optimization: implement virtualized lists, add memoization for expensive calculations, optimize re-renders, implement proper data caching strategies, and add pull-to-refresh functionality for updating the transaction list.",
+          "status": "pending",
+          "testStrategy": "Test export functionality with various transaction volumes. Verify exported files contain correct data. Measure and compare performance metrics before and after optimization."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Implement Savings Goals Management (Screens 11-12)",
+      "description": "Create functionality for users to set, track, and manage savings goals",
+      "details": "1. Create GoalsListScreen (Screen 11):\n   - List of active and completed goals\n   - Progress indicators for each goal\n   - Add new goal button\n2. Create CreateGoalScreen (Screen 12):\n   - Goal name input\n   - Target amount selection\n   - Optional target date\n   - Goal category selection\n3. Implement goals API:\n   - GET /goals (list user goals)\n   - POST /goals (create new goal)\n   - PUT /goals/:id (update goal)\n   - DELETE /goals/:id (delete goal)\n4. Add goal progress calculation logic\n5. Implement goal completion notifications\n6. Add goal-specific transaction allocation",
+      "testStrategy": "Test goal creation, progress tracking, completion detection, and goal-specific savings allocation. Verify calculations are accurate.",
+      "priority": "low",
+      "dependencies": [
+        7
+      ],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create Goals API Integration Layer",
+          "description": "Implement the API service layer for goals management, including endpoints for listing, creating, updating, and deleting goals.",
+          "dependencies": [],
+          "details": "Create a GoalsService class with methods for: fetchGoals(), createGoal(goalData), updateGoal(id, goalData), and deleteGoal(id). Implement proper error handling and loading states. Use the API endpoints: GET /goals, POST /goals, PUT /goals/:id, and DELETE /goals/:id.",
+          "status": "pending",
+          "testStrategy": "Write unit tests for each API method using mock responses. Test error handling scenarios and successful data fetching."
+        },
+        {
+          "id": 2,
+          "title": "Implement Goals List Screen (Screen 11)",
+          "description": "Create the main goals management screen showing active and completed goals with progress indicators.",
+          "dependencies": [
+            1
+          ],
+          "details": "Build a GoalsListScreen component with sections for active and completed goals. Each goal item should display name, target amount, current progress, category, and deadline if applicable. Include a floating action button to add new goals. Implement filtering and sorting options. Use the GoalsService to fetch data.",
+          "status": "pending",
+          "testStrategy": "Create component tests to verify rendering of goals lists, proper progress display, and navigation to goal creation screen."
+        },
+        {
+          "id": 3,
+          "title": "Implement Create Goal Screen (Screen 12)",
+          "description": "Build the form interface for users to create new savings goals with all required inputs.",
+          "dependencies": [
+            1
+          ],
+          "details": "Create a CreateGoalScreen component with form fields for goal name, target amount (with currency selection), optional target date (date picker), and goal category selection (dropdown). Implement form validation for required fields. Connect to the createGoal() API method from GoalsService. Add a confirmation dialog before submission.",
+          "status": "pending",
+          "testStrategy": "Test form validation, submission process, and error handling. Verify all input fields work correctly."
+        },
+        {
+          "id": 4,
+          "title": "Develop Goal Progress Calculation Logic",
+          "description": "Create the business logic for tracking and calculating progress towards savings goals.",
+          "dependencies": [
+            1
+          ],
+          "details": "Implement a GoalProgressCalculator utility that computes current progress percentage, remaining amount, and projected completion date based on current savings rate. Create methods to determine if a goal is on track, behind schedule, or ahead of schedule. This should account for regular contributions and one-time deposits.",
+          "status": "pending",
+          "testStrategy": "Write unit tests with various scenarios of goal progress, including edge cases like goals with/without deadlines and different contribution patterns."
+        },
+        {
+          "id": 5,
+          "title": "Implement Goal-Specific Transaction Allocation",
+          "description": "Create functionality to allow users to allocate specific transactions towards their savings goals.",
+          "dependencies": [
+            2,
+            4
+          ],
+          "details": "Extend the transaction management system to allow tagging transactions as contributions to specific goals. Add a 'Allocate to Goal' option in the transaction details screen. Create an AllocationService with methods to associate transactions with goals and update goal progress accordingly. Update the goals list UI to show recent contributions.",
+          "status": "pending",
+          "testStrategy": "Test the allocation workflow from transaction to goal, verify progress updates correctly, and test the UI updates when allocations change."
+        },
+        {
+          "id": 6,
+          "title": "Add Goal Completion Notification System",
+          "description": "Implement notifications for goal progress milestones and completion events.",
+          "dependencies": [
+            4,
+            5
+          ],
+          "details": "Create a GoalNotificationManager that monitors goal progress and triggers notifications at key milestones (50%, 75%, 90%, 100%). Implement both in-app notifications and push notifications. Add user preferences for notification frequency. Create celebratory UI elements for completed goals, including confetti animation and achievement badges.",
+          "status": "pending",
+          "testStrategy": "Test notification triggering at different progress thresholds. Verify both in-app and push notifications work correctly. Test the celebration UI components."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Develop Profile and Settings Screens (Screens 9-10)",
+      "description": "Create user profile management and app settings with security features",
+      "details": "1. Create ProfileScreen (Screen 9):\n   - User information display and editing\n   - Account statistics (total saved, goals achieved)\n   - Account settings access\n2. Create SettingsScreen (Screen 10):\n   - Security settings (PIN, biometric authentication)\n   - Notification preferences\n   - App preferences (language, currency display)\n   - Account management (logout, delete account)\n3. Implement profile API:\n   - GET /profile\n   - PUT /profile\n   - POST /profile/change-pin\n4. Add biometric authentication setup\n5. Implement notification preferences\n6. Add data export and account deletion\n7. Include privacy and terms links",
+      "testStrategy": "Test profile updates, security settings, biometric authentication, and notification preferences. Verify data privacy compliance.",
+      "priority": "low",
+      "dependencies": [
+        4
+      ],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Implement ProfileScreen UI and API Integration",
+          "description": "Create the user profile screen with information display, editing capabilities, and account statistics, integrated with the profile API endpoints.",
+          "dependencies": [],
+          "details": "1. Design and implement the ProfileScreen UI with user information fields (name, email, photo)\n2. Add account statistics section showing total saved and goals achieved\n3. Create edit mode for user information with form validation\n4. Implement the GET /profile API integration to fetch user data\n5. Implement the PUT /profile API integration to update user information\n6. Add navigation to SettingsScreen",
+          "status": "pending",
+          "testStrategy": "Unit test API integration with mock responses. UI tests for form validation and edit mode toggling."
+        },
+        {
+          "id": 2,
+          "title": "Develop SettingsScreen UI Framework",
+          "description": "Create the settings screen UI framework with all required sections and navigation structure.",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Design and implement the SettingsScreen UI with sectioned layout\n2. Create navigation structure between different settings categories\n3. Implement account management section with logout functionality\n4. Add language and currency display preferences\n5. Include privacy policy and terms of service links\n6. Create placeholder sections for security and notification settings",
+          "status": "pending",
+          "testStrategy": "UI tests for navigation between sections. Unit tests for preference storage and retrieval."
+        },
+        {
+          "id": 3,
+          "title": "Implement Security Settings and PIN Management",
+          "description": "Add PIN creation, verification, and management functionality to the security settings section.",
+          "dependencies": [
+            2
+          ],
+          "details": "1. Create PIN setup UI with confirmation flow\n2. Implement PIN storage with secure encryption\n3. Add PIN change functionality with current PIN verification\n4. Implement the POST /profile/change-pin API integration\n5. Create PIN verification screen for sensitive operations\n6. Add toggle for requiring PIN on app start",
+          "status": "pending",
+          "testStrategy": "Unit tests for PIN validation logic and encryption. Integration tests for PIN change API."
+        },
+        {
+          "id": 4,
+          "title": "Add Biometric Authentication Support",
+          "description": "Implement biometric authentication (fingerprint/face recognition) as an alternative to PIN authentication.",
+          "dependencies": [
+            3
+          ],
+          "details": "1. Add platform-specific biometric authentication libraries\n2. Create biometric setup UI with permissions handling\n3. Implement biometric verification flow\n4. Add toggle to enable/disable biometric authentication\n5. Integrate biometric authentication with existing PIN security\n6. Handle biometric authentication failures gracefully",
+          "status": "pending",
+          "testStrategy": "Device-specific tests for biometric authentication. Mock tests for authentication callbacks."
+        },
+        {
+          "id": 5,
+          "title": "Implement Notification Preferences and Data Privacy Features",
+          "description": "Add notification management and data privacy features including account deletion and data export.",
+          "dependencies": [
+            2
+          ],
+          "details": "1. Create notification preferences UI with toggles for different notification types\n2. Implement notification settings storage and integration with push notification system\n3. Add account deletion flow with confirmation and PIN verification\n4. Implement data export functionality to generate and share user data\n5. Create privacy settings section with data usage controls\n6. Add API endpoints for account deletion and data export requests",
+          "status": "pending",
+          "testStrategy": "Integration tests for notification permission handling. End-to-end tests for account deletion flow with server validation."
+        }
+      ]
+    }
+  ]
+}

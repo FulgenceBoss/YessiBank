@@ -1,0 +1,55 @@
+# Task ID: 5
+# Title: Develop Payment Simulation API
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Create mock payment API to simulate Airtel Money and Moov Money transactions for development
+# Details:
+1. Create payment simulation endpoints:
+   - POST /payments/simulate/deposit (simulate money deposit)
+   - POST /payments/simulate/authorize (simulate account linking)
+   - GET /payments/simulate/balance (simulate account balance)
+2. Implement realistic response delays (1-3 seconds)
+3. Add success/failure scenarios (90% success rate)
+4. Create transaction logging for debugging
+5. Implement webhook simulation for async notifications
+6. Add different response scenarios:
+   - Successful transactions
+   - Insufficient funds
+   - Network timeouts
+   - Invalid account errors
+
+# Test Strategy:
+Test all simulation endpoints, verify realistic delays, test error scenarios, and validate transaction logging.
+
+# Subtasks:
+## 1. Create Payment Simulation Endpoints [pending]
+### Dependencies: None
+### Description: Implement the core API endpoints for simulating payment transactions including deposit, authorization, and balance checking.
+### Details:
+Create Express.js routes for the three main endpoints: POST /payments/simulate/deposit, POST /payments/simulate/authorize, and GET /payments/simulate/balance. Each endpoint should accept appropriate parameters (e.g., amount, accountId, provider) and return standardized JSON responses. Implement basic request validation to ensure required fields are present and have valid formats. Structure the code to allow for provider-specific logic (Airtel Money vs Moov Money) with shared utilities.
+
+## 2. Implement Realistic Response Delays [pending]
+### Dependencies: 5.1
+### Description: Add configurable delay mechanisms to simulate real-world network latency in payment processing.
+### Details:
+Create a delay utility function that returns a Promise resolving after a random time between 1-3 seconds. Integrate this delay function into each endpoint's request handler. Make the delay configurable via environment variables to allow for faster testing when needed. Consider implementing variable delays based on transaction type or provider to simulate different network conditions.
+
+## 3. Implement Success/Failure Scenarios [pending]
+### Dependencies: 5.1, 5.2
+### Description: Add logic to simulate various transaction outcomes including successes and different failure modes based on configurable probability.
+### Details:
+Create a transaction outcome simulator that returns success/failure based on a 90% success rate by default. For failure cases, implement different error types: insufficient funds, network timeouts, invalid account errors, and other provider-specific errors. Each error should return appropriate HTTP status codes and structured error responses. Make the success rate configurable for testing edge cases.
+
+## 4. Create Transaction Logging System [pending]
+### Dependencies: 5.1, 5.3
+### Description: Implement a comprehensive logging system to record all simulated transactions for debugging and analysis.
+### Details:
+Create a transaction logger that records details of each request, response, and simulated outcome. Store logs in both memory (for quick access) and optionally to a file. Include transaction ID, timestamp, request parameters, response details, simulated delays, and error information if applicable. Implement an endpoint (GET /payments/simulate/logs) to retrieve recent transaction logs for debugging.
+
+## 5. Set Up Webhook Notification System [pending]
+### Dependencies: 5.1, 5.3, 5.4
+### Description: Implement asynchronous webhook notifications to simulate payment provider callbacks after transaction processing.
+### Details:
+Create a webhook dispatcher that sends notifications to a configurable callback URL after transaction processing. Implement a delay mechanism to simulate realistic async behavior (5-10 seconds after initial request). Include transaction details, status, and provider-specific response codes in the webhook payload. Add webhook event logging to the transaction logging system. Provide a configuration endpoint to register webhook URLs for testing.
+

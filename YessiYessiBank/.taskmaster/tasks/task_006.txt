@@ -1,0 +1,56 @@
+# Task ID: 6
+# Title: Implement Savings Configuration (Screens 4-5)
+# Status: pending
+# Dependencies: 4, 5
+# Priority: medium
+# Description: Create screens for setting up automatic savings amount and linking Mobile Money accounts
+# Details:
+1. Create SavingsConfigScreen (Screen 4):
+   - Amount selector (100-25,000 FCFA)
+   - Frequency selection (daily for MVP)
+   - Visual feedback for selections
+2. Create AccountLinkingScreen (Screen 5):
+   - Mobile Money provider selection (Airtel/Moov)
+   - Account authorization flow
+   - Success/error feedback
+3. Implement savings configuration API:
+   - POST /users/savings-config
+   - PUT /users/savings-config
+4. Add form validation and user guidance
+5. Integrate with payment simulation API for account linking
+6. Store configuration securely in user profile
+
+# Test Strategy:
+Test amount validation, account linking simulation, configuration saving, and error handling. Verify UI follows design system.
+
+# Subtasks:
+## 1. Create SavingsConfigScreen UI Components [pending]
+### Dependencies: None
+### Description: Implement the UI for the savings configuration screen (Screen 4) with amount selector and frequency selection
+### Details:
+Create a new screen component with: 1) A slider or number input for amount selection (range 100-25,000 FCFA), 2) Radio buttons or dropdown for frequency selection (daily only for MVP), 3) Visual feedback elements showing selected values, 4) Next button to proceed to account linking. Use the app's design system for consistent styling.
+
+## 2. Implement AccountLinkingScreen UI [pending]
+### Dependencies: 6.1
+### Description: Create the UI for linking Mobile Money accounts (Screen 5) with provider selection and authorization flow
+### Details:
+Develop a screen with: 1) Provider selection buttons for Airtel and Moov, 2) Input fields for account details, 3) Connect button to initiate authorization, 4) Loading states during authorization, 5) Success/error message components. Include back button to return to savings configuration.
+
+## 3. Implement Savings Configuration API Integration [pending]
+### Dependencies: 6.1, 6.2
+### Description: Connect the UI to backend APIs for saving user configuration and account linking
+### Details:
+Implement API service functions for: 1) POST /users/savings-config to create new configuration, 2) PUT /users/savings-config to update existing configuration, 3) Integrate with payment simulation API for account linking verification. Handle API responses and error states appropriately.
+
+## 4. Add Form Validation and Error Handling [pending]
+### Dependencies: 6.1, 6.2, 6.3
+### Description: Implement client-side validation and comprehensive error handling for both screens
+### Details:
+Add validation for: 1) Amount input (within range, numeric), 2) Required field validation for account details, 3) Contextual error messages for validation failures, 4) Network error handling with retry options, 5) User guidance tooltips for form fields. Ensure all error states are handled gracefully with clear user feedback.
+
+## 5. Implement Secure Configuration Storage [pending]
+### Dependencies: 6.3, 6.4
+### Description: Store user's savings configuration securely in the user profile and handle configuration persistence
+### Details:
+Implement: 1) Secure storage of configuration in user profile, 2) Encryption for sensitive account details, 3) Configuration retrieval on app startup, 4) Caching mechanism for offline access, 5) Configuration update workflow. Ensure all sensitive data is handled according to security best practices.
+

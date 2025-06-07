@@ -1,0 +1,64 @@
+# Task ID: 3
+# Title: Implement OTP Authentication System
+# Status: done
+# Dependencies: 2
+# Priority: high
+# Description: Develop phone number-based authentication with SMS OTP verification using JWT tokens
+# Details:
+1. Install dependencies: `npm install jsonwebtoken bcryptjs twilio` (or SMS service)
+2. Create OTP model with fields: phoneNumber, code, expiresAt, isUsed
+3. Implement OTP generation (6-digit random number)
+4. Setup SMS service integration (Twilio or local Gabonese SMS provider)
+5. Create authentication middleware for JWT verification
+6. Implement endpoints:
+   - POST /auth/send-otp (send OTP to phone)
+   - POST /auth/verify-otp (verify OTP and return JWT)
+   - POST /auth/refresh-token
+7. Add rate limiting for OTP requests
+
+# Test Strategy:
+Test OTP generation, SMS sending, verification flow, and JWT token validation. Test rate limiting and expired OTP handling.
+
+# Subtasks:
+## 1. Create OTP Model and Database Schema [done]
+### Dependencies: None
+### Description: Design and implement the OTP model with required fields for storing and validating one-time passwords
+### Details:
+Create a MongoDB schema with fields: phoneNumber (string, indexed), code (string, 6 digits), expiresAt (Date), isUsed (boolean). Include methods for validation and expiration checking. Install dependencies: mongoose, jsonwebtoken, bcryptjs, twilio (or local SMS provider).
+
+## 2. Implement Secure OTP Generation Logic [done]
+### Dependencies: 3.1
+### Description: Create a service to generate cryptographically secure 6-digit OTP codes with proper expiration handling
+### Details:
+Create an OTPService with methods to generate random 6-digit codes using crypto module. Set expiration time (5-10 minutes). Implement function to validate if an OTP is valid, not expired, and not previously used. Store generated OTPs in the database with phone number and expiration.
+
+## 3. Integrate SMS Service for OTP Delivery [done]
+### Dependencies: 3.2
+### Description: Set up and configure SMS service integration to deliver OTP codes to user phone numbers
+### Details:
+Create an SMSService that abstracts the SMS provider (Twilio or local Gabonese provider). Implement configuration with environment variables for API keys. Create methods to send formatted OTP messages with proper error handling and logging. Include retry logic for failed deliveries.
+
+## 4. Implement JWT Token Management [done]
+### Dependencies: 3.1
+### Description: Create service for generating, validating, and refreshing JWT tokens for authenticated sessions
+### Details:
+Create TokenService with methods to generate JWTs containing user ID and phone number. Implement token signing with secret key from environment variables. Add token expiration (e.g., 24 hours). Create methods for token verification and refresh token generation with longer expiration. Store refresh tokens securely.
+
+## 5. Create Authentication Middleware [done]
+### Dependencies: 3.4
+### Description: Develop middleware to verify JWT tokens and protect routes requiring authentication
+### Details:
+Create middleware function that extracts JWT from Authorization header. Verify token validity using TokenService. Add user information to request object for authenticated routes. Handle and return appropriate error responses for invalid or expired tokens. Implement optional role-based authorization checks.
+
+## 6. Implement Authentication API Endpoints [done]
+### Dependencies: 3.2, 3.3, 3.4, 3.5
+### Description: Create REST API endpoints for OTP sending, verification, and token refresh operations
+### Details:
+Implement three endpoints: 1) POST /auth/send-otp - validates phone number, generates OTP, sends SMS; 2) POST /auth/verify-otp - validates submitted OTP, marks as used, returns JWT if valid; 3) POST /auth/refresh-token - issues new access token using refresh token. Include proper request validation, error handling, and response formatting.
+
+## 7. Implement Rate Limiting and Security Enhancements [done]
+### Dependencies: 3.6
+### Description: Add rate limiting for OTP requests and implement additional security measures
+### Details:
+Integrate express-rate-limit middleware for OTP endpoints (e.g., max 3 requests per phone number per hour). Add IP-based rate limiting as secondary protection. Implement logging for security events. Add phone number validation and sanitization. Consider implementing temporary account lockout after multiple failed verification attempts. Document security measures for the team.
+

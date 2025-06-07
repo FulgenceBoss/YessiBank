@@ -1,0 +1,65 @@
+# Task ID: 11
+# Title: Implement Savings Goals Management (Screens 11-12)
+# Status: pending
+# Dependencies: 7
+# Priority: low
+# Description: Create functionality for users to set, track, and manage savings goals
+# Details:
+1. Create GoalsListScreen (Screen 11):
+   - List of active and completed goals
+   - Progress indicators for each goal
+   - Add new goal button
+2. Create CreateGoalScreen (Screen 12):
+   - Goal name input
+   - Target amount selection
+   - Optional target date
+   - Goal category selection
+3. Implement goals API:
+   - GET /goals (list user goals)
+   - POST /goals (create new goal)
+   - PUT /goals/:id (update goal)
+   - DELETE /goals/:id (delete goal)
+4. Add goal progress calculation logic
+5. Implement goal completion notifications
+6. Add goal-specific transaction allocation
+
+# Test Strategy:
+Test goal creation, progress tracking, completion detection, and goal-specific savings allocation. Verify calculations are accurate.
+
+# Subtasks:
+## 1. Create Goals API Integration Layer [pending]
+### Dependencies: None
+### Description: Implement the API service layer for goals management, including endpoints for listing, creating, updating, and deleting goals.
+### Details:
+Create a GoalsService class with methods for: fetchGoals(), createGoal(goalData), updateGoal(id, goalData), and deleteGoal(id). Implement proper error handling and loading states. Use the API endpoints: GET /goals, POST /goals, PUT /goals/:id, and DELETE /goals/:id.
+
+## 2. Implement Goals List Screen (Screen 11) [pending]
+### Dependencies: 11.1
+### Description: Create the main goals management screen showing active and completed goals with progress indicators.
+### Details:
+Build a GoalsListScreen component with sections for active and completed goals. Each goal item should display name, target amount, current progress, category, and deadline if applicable. Include a floating action button to add new goals. Implement filtering and sorting options. Use the GoalsService to fetch data.
+
+## 3. Implement Create Goal Screen (Screen 12) [pending]
+### Dependencies: 11.1
+### Description: Build the form interface for users to create new savings goals with all required inputs.
+### Details:
+Create a CreateGoalScreen component with form fields for goal name, target amount (with currency selection), optional target date (date picker), and goal category selection (dropdown). Implement form validation for required fields. Connect to the createGoal() API method from GoalsService. Add a confirmation dialog before submission.
+
+## 4. Develop Goal Progress Calculation Logic [pending]
+### Dependencies: 11.1
+### Description: Create the business logic for tracking and calculating progress towards savings goals.
+### Details:
+Implement a GoalProgressCalculator utility that computes current progress percentage, remaining amount, and projected completion date based on current savings rate. Create methods to determine if a goal is on track, behind schedule, or ahead of schedule. This should account for regular contributions and one-time deposits.
+
+## 5. Implement Goal-Specific Transaction Allocation [pending]
+### Dependencies: 11.2, 11.4
+### Description: Create functionality to allow users to allocate specific transactions towards their savings goals.
+### Details:
+Extend the transaction management system to allow tagging transactions as contributions to specific goals. Add a 'Allocate to Goal' option in the transaction details screen. Create an AllocationService with methods to associate transactions with goals and update goal progress accordingly. Update the goals list UI to show recent contributions.
+
+## 6. Add Goal Completion Notification System [pending]
+### Dependencies: 11.4, 11.5
+### Description: Implement notifications for goal progress milestones and completion events.
+### Details:
+Create a GoalNotificationManager that monitors goal progress and triggers notifications at key milestones (50%, 75%, 90%, 100%). Implement both in-app notifications and push notifications. Add user preferences for notification frequency. Create celebratory UI elements for completed goals, including confetti animation and achievement badges.
+

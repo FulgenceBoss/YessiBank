@@ -1,0 +1,63 @@
+# Task ID: 7
+# Title: Create Transaction and Savings Models
+# Status: pending
+# Dependencies: 2
+# Priority: medium
+# Description: Develop database schemas for transactions, savings goals, and automatic savings logic
+# Details:
+1. Create Transaction schema:
+   - userId, amount, type (auto/manual), status
+   - paymentProvider, transactionId, timestamp
+   - metadata (goal_id if applicable)
+2. Create SavingsGoal schema:
+   - userId, title, targetAmount, currentAmount
+   - createdAt, targetDate, isCompleted
+3. Create automatic savings CRON job:
+   - Daily execution for all active users
+   - Integration with payment simulation API
+   - Error handling and retry logic
+4. Implement transaction service methods:
+   - createTransaction, updateTransactionStatus
+   - calculateTotalSavings, getTransactionHistory
+5. Add transaction status tracking (pending, completed, failed)
+
+# Test Strategy:
+Test transaction creation, CRON job execution, goal tracking, and data integrity. Verify automatic savings logic works correctly.
+
+# Subtasks:
+## 1. Design and Implement Transaction Schema [pending]
+### Dependencies: None
+### Description: Create the database schema for transactions with all required fields and indexes
+### Details:
+Create a Transaction model with fields: userId (reference to User), amount (decimal), type (enum: 'auto', 'manual'), status (enum: 'pending', 'completed', 'failed'), paymentProvider (string), transactionId (string), timestamp (Date), and metadata (object with goal_id if applicable). Add appropriate indexes for userId and status for efficient querying. Implement validation for required fields and data types.
+
+## 2. Design and Implement SavingsGoal Schema [pending]
+### Dependencies: None
+### Description: Create the database schema for savings goals with all required fields and indexes
+### Details:
+Create a SavingsGoal model with fields: userId (reference to User), title (string), targetAmount (decimal), currentAmount (decimal, default 0), createdAt (Date), targetDate (Date), isCompleted (boolean, default false). Add indexes for userId and isCompleted. Implement validation for required fields, ensuring targetAmount is positive and targetDate is in the future.
+
+## 3. Implement Core Transaction Service Methods [pending]
+### Dependencies: 7.1, 7.2
+### Description: Create service methods for transaction creation, status updates, and retrieval
+### Details:
+Implement the following methods in a TransactionService: createTransaction (creates new transaction record), updateTransactionStatus (updates status field with proper validation), calculateTotalSavings (aggregates transaction amounts by userId), and getTransactionHistory (retrieves paginated transaction list with filters). Include proper error handling and validation in each method.
+
+## 4. Develop Automatic Savings Logic [pending]
+### Dependencies: 7.1, 7.2, 7.3
+### Description: Implement the core logic for automatic savings calculations and goal allocation
+### Details:
+Create an AutomaticSavingsService with methods to: calculateSavingsAmount (determines amount to save based on user preferences), allocateToGoals (distributes savings across user's active goals based on priority/rules), and processAutomaticSaving (combines the previous methods and creates a transaction). Implement business rules for maximum savings limits and goal prioritization.
+
+## 5. Implement CRON Job for Automatic Savings [pending]
+### Dependencies: 7.4
+### Description: Create a scheduled job to process automatic savings for all active users
+### Details:
+Set up a daily CRON job using a task scheduler (like node-cron) that: 1) Retrieves all active users, 2) For each user, calls the AutomaticSavingsService.processAutomaticSaving method, 3) Integrates with the payment simulation API to process the actual transaction, 4) Updates transaction status based on payment API response. Implement proper logging for job execution and completion.
+
+## 6. Implement Error Handling and Retry Mechanism [pending]
+### Dependencies: 7.3, 7.5
+### Description: Add robust error handling and retry logic for failed transactions
+### Details:
+Create a RetryService that: 1) Identifies failed transactions, 2) Implements exponential backoff retry logic, 3) Sets maximum retry attempts, 4) Updates transaction status appropriately after retries, 5) Notifies users of permanently failed transactions. Add comprehensive error logging with transaction details. Implement a separate CRON job to periodically retry failed transactions.
+

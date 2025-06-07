@@ -8,7 +8,10 @@ export const sendOtp = createAsyncThunk(
       const response = await api.post('/auth/send-otp', {phoneNumber});
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error.response) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({message: error.message});
     }
   },
 );
@@ -23,7 +26,10 @@ export const verifyOtp = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error.response) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({message: error.message});
     }
   },
 );

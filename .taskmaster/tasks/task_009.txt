@@ -1,0 +1,72 @@
+# Task ID: 9
+# Title: Implement Manual Savings Feature (Screen 7)
+# Status: pending
+# Dependencies: 7
+# Priority: medium
+# Description: Create interface for users to make one-time savings deposits
+# Details:
+1. Create ManualSavingsScreen:
+   - Amount input with validation (100-25,000 FCFA)
+   - Payment confirmation flow
+   - Success/failure feedback
+2. Implement manual savings API:
+   - POST /savings/manual-deposit
+   - Integration with payment simulation
+3. Add amount validation and user guidance
+4. Implement transaction confirmation flow
+5. Add loading states during payment processing
+6. Update dashboard balance after successful deposit
+7. Add transaction to history immediately
+
+# Test Strategy:
+Test amount validation, payment simulation integration, balance updates, and error handling. Verify transaction appears in history.
+
+# Subtasks:
+## 1. Create ManualSavingsScreen UI Components [pending]
+### Dependencies: None
+### Description: Build the user interface for the manual savings deposit screen with input validation and layout
+### Details:
+1. Create a new screen component ManualSavingsScreen.js
+2. Implement amount input field with numeric keyboard
+3. Add validation to ensure amount is between 100-25,000 FCFA
+4. Display validation errors and user guidance text
+5. Create a 'Confirm' button that is enabled only when input is valid
+6. Add loading state indicators (spinner/skeleton)
+7. Design the layout according to the app's style guide
+
+## 2. Implement Manual Savings API Integration [pending]
+### Dependencies: None
+### Description: Create the API service to handle manual savings deposits and integrate with the payment simulation
+### Details:
+1. Create a new API endpoint handler in the services directory
+2. Implement the POST /savings/manual-deposit endpoint integration
+3. Add proper error handling for network issues and server errors
+4. Create data models for request/response
+5. Implement payment simulation integration
+6. Add logging for debugging purposes
+7. Create mock responses for testing
+
+## 3. Implement Transaction Confirmation Flow [pending]
+### Dependencies: None
+### Description: Create the confirmation dialog and payment processing flow with success/failure feedback
+### Details:
+1. Create a confirmation dialog showing transaction details
+2. Implement back/confirm actions in the dialog
+3. Add loading state during API call
+4. Create success feedback screen with animation and details
+5. Create failure feedback with retry option
+6. Implement navigation flow between screens
+7. Add appropriate error messages for different failure scenarios
+
+## 4. Implement Real-time Balance Updates and Transaction History [pending]
+### Dependencies: None
+### Description: Update the dashboard balance and transaction history immediately after a successful deposit
+### Details:
+1. Create a state update mechanism for successful transactions
+2. Update the dashboard balance in real-time after deposit
+3. Add the new transaction to history immediately
+4. Implement local caching for offline viewing
+5. Create refresh mechanism for transaction list
+6. Add visual indicator for new transactions
+7. Ensure consistency between dashboard and transaction history
+

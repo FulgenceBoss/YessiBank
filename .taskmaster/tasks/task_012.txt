@@ -1,0 +1,84 @@
+# Task ID: 12
+# Title: Develop Profile and Settings Screens (Screens 9-10)
+# Status: pending
+# Dependencies: 4
+# Priority: low
+# Description: Create user profile management and app settings with security features
+# Details:
+1. Create ProfileScreen (Screen 9):
+   - User information display and editing
+   - Account statistics (total saved, goals achieved)
+   - Account settings access
+2. Create SettingsScreen (Screen 10):
+   - Security settings (PIN, biometric authentication)
+   - Notification preferences
+   - App preferences (language, currency display)
+   - Account management (logout, delete account)
+3. Implement profile API:
+   - GET /profile
+   - PUT /profile
+   - POST /profile/change-pin
+4. Add biometric authentication setup
+5. Implement notification preferences
+6. Add data export and account deletion
+7. Include privacy and terms links
+
+# Test Strategy:
+Test profile updates, security settings, biometric authentication, and notification preferences. Verify data privacy compliance.
+
+# Subtasks:
+## 1. Implement ProfileScreen UI and API Integration [pending]
+### Dependencies: None
+### Description: Create the user profile screen with information display, editing capabilities, and account statistics, integrated with the profile API endpoints.
+### Details:
+1. Design and implement the ProfileScreen UI with user information fields (name, email, photo)
+2. Add account statistics section showing total saved and goals achieved
+3. Create edit mode for user information with form validation
+4. Implement the GET /profile API integration to fetch user data
+5. Implement the PUT /profile API integration to update user information
+6. Add navigation to SettingsScreen
+
+## 2. Develop SettingsScreen UI Framework [pending]
+### Dependencies: 12.1
+### Description: Create the settings screen UI framework with all required sections and navigation structure.
+### Details:
+1. Design and implement the SettingsScreen UI with sectioned layout
+2. Create navigation structure between different settings categories
+3. Implement account management section with logout functionality
+4. Add language and currency display preferences
+5. Include privacy policy and terms of service links
+6. Create placeholder sections for security and notification settings
+
+## 3. Implement Security Settings and PIN Management [pending]
+### Dependencies: 12.2
+### Description: Add PIN creation, verification, and management functionality to the security settings section.
+### Details:
+1. Create PIN setup UI with confirmation flow
+2. Implement PIN storage with secure encryption
+3. Add PIN change functionality with current PIN verification
+4. Implement the POST /profile/change-pin API integration
+5. Create PIN verification screen for sensitive operations
+6. Add toggle for requiring PIN on app start
+
+## 4. Add Biometric Authentication Support [pending]
+### Dependencies: 12.3
+### Description: Implement biometric authentication (fingerprint/face recognition) as an alternative to PIN authentication.
+### Details:
+1. Add platform-specific biometric authentication libraries
+2. Create biometric setup UI with permissions handling
+3. Implement biometric verification flow
+4. Add toggle to enable/disable biometric authentication
+5. Integrate biometric authentication with existing PIN security
+6. Handle biometric authentication failures gracefully
+
+## 5. Implement Notification Preferences and Data Privacy Features [pending]
+### Dependencies: 12.2
+### Description: Add notification management and data privacy features including account deletion and data export.
+### Details:
+1. Create notification preferences UI with toggles for different notification types
+2. Implement notification settings storage and integration with push notification system
+3. Add account deletion flow with confirmation and PIN verification
+4. Implement data export functionality to generate and share user data
+5. Create privacy settings section with data usage controls
+6. Add API endpoints for account deletion and data export requests
+

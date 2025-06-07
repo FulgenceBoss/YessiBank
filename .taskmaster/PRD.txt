@@ -1,0 +1,85 @@
+# Aperçu du Produit (Product Overview)
+Yessi-Yessi Bank est une application mobile conçue pour le marché gabonais, visant à rendre l'épargne accessible et automatique. Elle résout le problème de la difficulté à épargner de manière régulière en permettant aux utilisateurs de mettre de côté de petites sommes d'argent (de 100 à 25 000 FCFA) chaque jour, directement depuis leur compte Mobile Money (Airtel Money ou Moov Money). La proposition de valeur est de favoriser l'inclusion financière et d'aider les Gabonais à atteindre leurs objectifs financiers personnels sans effort.
+
+# Fonctionnalités Clés du MVP (Core Features)
+Basé sur les maquettes fournies, le MVP se concentrera sur les fonctionnalités suivantes :
+
+1.  **Onboarding & Authentification (Écrans 1, 2, 3):**
+    *   **Description:** Un processus d'inscription simplifié utilisant un numéro de téléphone gabonais. L'authentification se fait via un code à usage unique (OTP) envoyé par SMS pour une sécurité accrue.
+    *   **Fonctionnement:** L'utilisateur entre son numéro de téléphone, reçoit un code de vérification, et le saisit pour créer son compte et se connecter.
+
+2.  **Configuration de l'Épargne (Écrans 4, 5):**
+    *   **Description:** Le cœur de l'application. L'utilisateur définit le montant qu'il souhaite épargner automatiquement chaque jour et lie son compte Mobile Money pour autoriser les prélèvements.
+    *   **Fonctionnement:** Sélection du montant, de la fréquence (quotidienne pour le MVP), et autorisation via une interface de l'opérateur mobile (ou de l'agrégateur).
+
+3.  **Tableau de Bord Principal (Écran 6):**
+    *   **Description:** L'écran d'accueil après connexion. Il affiche le solde total épargné, un résumé des activités récentes et la progression vers les objectifs fixés.
+    *   **Fonctionnement:** Vue d'ensemble dynamique et motivante des finances de l'utilisateur.
+
+4.  **Épargne Manuelle (Écran 7):**
+    *   **Description:** Permet à l'utilisateur d'effectuer des dépôts ponctuels du montant de son choix, en plus de l'épargne automatique.
+    *   **Fonctionnement:** Saisie du montant, confirmation, et initiation d'un transfert ponctuel depuis le compte Mobile Money lié.
+
+5.  **Historique des Transactions (Écran 8):**
+    *   **Description:** Fournit une liste complète et détaillée de toutes les transactions (dépôts automatiques, manuels).
+    *   **Fonctionnement:** Un relevé chronologique pour une transparence totale.
+
+6.  **Gestion d'Objectifs (Écrans 11, 12):**
+    *   **Description:** Permet aux utilisateurs de créer et de suivre des objectifs d'épargne spécifiques (ex: "Achat ordinateur", "Fonds de vacances").
+    *   **Fonctionnement:** L'utilisateur nomme un objectif, fixe un montant cible, et l'application affiche la progression.
+
+7.  **Profil et Paramètres (Écrans 9, 10):**
+    *   **Description:** Gestion des informations personnelles, des paramètres de sécurité (code PIN, biométrie) et des notifications.
+
+# Expérience Utilisateur (User Experience)
+Le parcours utilisateur doit être fluide, intuitif et rassurant, en respectant scrupuleusement le `@DesignSytem`.
+1.  **Premier Contact:** L'utilisateur télécharge l'app, est accueilli par l'écran d'onboarding (Écran 1) puis s'inscrit avec son numéro (Écran 2) et un code OTP (Écran 3).
+2.  **Configuration Initiale:** L'utilisateur est immédiatement invité à configurer son épargne automatique (Écrans 4 & 5).
+3.  **Utilisation Quotidienne:** L'utilisateur se connecte pour consulter son solde (Écran 6), son historique (Écran 8) ou faire une épargne manuelle (Écran 7).
+
+# Architecture Technique
+*   **Frontend:** React Native (avec le framework Expo pour simplifier les builds et les mises à jour).
+*   **Gestion d'état:** Redux Toolkit.
+*   **Backend:** Node.js (Express.js) sur une architecture serverless (ex: AWS Lambda) pour gérer les coûts et la scalabilité.
+*   **Base de Données:** MongoDB (via MongoDB Atlas) pour sa flexibilité avec les données de type document (utilisateurs, transactions, objectifs).
+*   **Authentification:** JSON Web Tokens (JWT) après une vérification OTP par SMS.
+*   **Intégrations de Paiement:**
+    *   **Priorité 1:** Intégration de l'API d'Airtel Money.
+    *   **Priorité 2 (Plan B):** Intégration via l'agrégateur MyPayga si l'approche directe échoue.
+    *   **Plan de Secours (Simulation):** Développement d'une API de simulation (mock API) en interne. Cette API imitera les requêtes et réponses de l'API de paiement réelle. **Cette approche est cruciale** car elle permet de développer 95% de l'application (frontend et backend) sans dépendre de la finalisation du partenariat technique avec l'opérateur.
+
+# Feuille de Route du Développement (Development Roadmap)
+*   **Phase 1: Fondation et Authentification (2 Sprints)**
+    *   Tâches: Mise en place de l'environnement, création des écrans 1, 2, 3, et développement du backend pour la gestion des utilisateurs et des OTP.
+    *   **Livrable:** Un utilisateur peut s'inscrire et se connecter à l'application.
+
+*   **Phase 2: Logique d'Épargne et API de Simulation (2 Sprints)**
+    *   Tâches: Création de l'API de simulation de paiement, développement de la logique d'épargne automatique (tâche CRON) et manuelle, création des écrans 4, 5, 7.
+    *   **Livrable:** Un utilisateur peut configurer ses préférences d'épargne et effectuer des versements (simulés).
+
+*   **Phase 3: Visualisation et Consultation (2 Sprints)**
+    *   Tâches: Développement du tableau de bord (Écran 6) et de l'historique (Écran 8), connexion de ces écrans au backend pour afficher les données simulées.
+    *   **Livrable:** L'utilisateur peut voir son solde "virtuel" augmenter et consulter l'historique de ses opérations.
+
+*   **Phase 4: Finalisation et Intégration Réelle (2 Sprints)**
+    *   Tâches: Développement des écrans restants (9, 10, 11, 12), remplacement de l'API de simulation par l'API réelle (Airtel ou MyPayga), tests de bout en bout avec des comptes réels.
+    *   **Livrable:** Une version bêta-testable du MVP, prête pour un déploiement restreint.
+
+# Chaîne de Dépendances Logiques
+1.  L'authentification est le socle de tout.
+2.  L'API de paiement (même simulée) est requise pour développer toute fonctionnalité de dépôt.
+3.  Le tableau de bord et l'historique dépendent de la base de données des transactions.
+4.  L'intégration de l'API réelle est la dernière étape technique majeure, car c'est la plus incertaine. En la dépriorisant grâce à la simulation, on sécurise le planning de développement.
+
+# Risques et Plans de Mitigation
+*   **Risque Très Élevé:** Difficulté ou retard dans l'obtention de l'accès à l'API de paiement.
+    *   **Mitigation:** Utiliser l'**API de simulation** pour développer l'intégralité de l'application en parallèle des négociations techniques et commerciales avec Airtel ou MyPayga. Le projet n'est ainsi pas bloqué.
+*   **Risque Moyen:** Complexité réglementaire et conformité (COBAC).
+    *   **Mitigation:** Se faire accompagner par un conseil juridique dès la Phase 2. S'assurer que toutes les données sont chiffrées (au repos et en transit) et que chaque transaction est auditable.
+*   **Risque Faible:** Adoption par les utilisateurs.
+    *   **Mitigation:** Suivre rigoureusement les maquettes validées et le design system pour une expérience utilisateur optimale. Lancer une bêta fermée pour collecter des retours avant le lancement public.
+
+# Annexes
+*   Maquettes des écrans: @SCREEN 1 à @SCREEN12
+*   Système de Design: @DesignSytem
+*   Description fonctionnelle: @Description_Yessi-Yessi 

@@ -1,0 +1,103 @@
+# Task ID: 2
+# Title: Setup MongoDB Database and User Schema
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Configure MongoDB Atlas connection and create user data models for authentication and profile management
+# Details:
+1. Setup MongoDB Atlas cluster
+2. Install mongoose: `npm install mongoose`
+3. Create User schema with fields:
+   - phoneNumber (unique, required)
+   - isVerified (boolean)
+   - createdAt, updatedAt
+   - profile (name, preferences)
+   - savingsConfig (amount, frequency)
+4. Create database connection utility
+5. Setup environment variables for MongoDB connection string
+6. Implement basic CRUD operations for users
+
+# Test Strategy:
+Test database connection, user creation, and basic queries. Verify schema validation works correctly.
+
+# Subtasks:
+## 1. Setup MongoDB Atlas Cluster and Environment Configuration [done]
+### Dependencies: None
+### Description: Create a MongoDB Atlas cluster and configure environment variables for secure database connection
+### Details:
+1. Create a MongoDB Atlas account if not already done
+2. Set up a new cluster with appropriate region and specifications
+3. Configure network access to allow connections from development environment
+4. Create a database user with appropriate permissions
+5. Create a .env file in the project root
+6. Add MONGODB_URI environment variable with the connection string
+7. Install dotenv package: `npm install dotenv`
+8. Create a config.js file that loads environment variables
+
+## 2. Install Mongoose and Create Database Connection Utility [done]
+### Dependencies: 2.1
+### Description: Set up Mongoose ODM and create a reusable connection utility for the application
+### Details:
+1. Install mongoose: `npm install mongoose`
+2. Create a db.js utility file in a 'utils' or 'config' directory
+3. Implement connection function using the MongoDB URI from environment variables
+4. Add connection event listeners (connected, error, disconnected)
+5. Implement connection pooling configuration
+6. Add reconnection logic with exponential backoff
+7. Export the connection instance
+8. Create a test function to verify connection
+
+## 3. Design and Implement User Schema with Validation [done]
+### Dependencies: 2.2
+### Description: Create the Mongoose User schema with all required fields and validation rules
+### Details:
+1. Create a models directory
+2. Create User.js model file
+3. Define the User schema with the following fields:
+   - phoneNumber (String, unique, required, with validation regex)
+   - isVerified (Boolean, default: false)
+   - createdAt, updatedAt (Date, with timestamps option)
+   - profile: subdocument with name (String) and preferences (Object)
+   - savingsConfig: subdocument with amount (Number) and frequency (String, enum)
+4. Add appropriate validation for each field
+5. Add pre-save hooks for any data processing
+6. Create indexes for frequently queried fields
+7. Export the User model
+
+## 4. Implement Basic CRUD Operations for User Model [done]
+### Dependencies: 2.3
+### Description: Create utility functions for creating, reading, updating, and deleting user records
+### Details:
+1. Create a services directory
+2. Create userService.js file
+3. Implement the following functions:
+   - createUser(userData): Creates a new user
+   - getUserByPhone(phoneNumber): Retrieves user by phone number
+   - getUserById(id): Retrieves user by ID
+   - updateUser(id, updates): Updates user data
+   - deleteUser(id): Removes a user
+   - verifyUser(id): Sets isVerified to true
+   - updateSavingsConfig(id, config): Updates savings configuration
+4. Add proper error handling for each function
+5. Export all functions as a service module
+
+## 5. Create Database Integration Tests and Documentation [done]
+### Dependencies: 2.4
+### Description: Develop comprehensive tests for the database integration and document the database setup
+### Details:
+1. Create a test directory with a database subdirectory
+2. Set up a test database configuration that uses a separate test database
+3. Implement integration tests for:
+   - Database connection
+   - User creation with validation
+   - User retrieval operations
+   - Update operations
+   - Delete operations
+   - Edge cases and error handling
+4. Create a DATABASE.md documentation file explaining:
+   - Database structure
+   - Schema design decisions
+   - How to connect to development/production databases
+   - Common operations and examples
+5. Add database setup instructions to the main README.md
+

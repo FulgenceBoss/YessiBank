@@ -1,0 +1,61 @@
+# Task ID: 8
+# Title: Develop Dashboard Screen (Screen 6)
+# Status: pending
+# Dependencies: 7
+# Priority: medium
+# Description: Create main dashboard showing total savings, recent activity, and goal progress
+# Details:
+1. Create DashboardScreen with components:
+   - Total savings balance display
+   - Recent transactions summary (last 5)
+   - Savings goals progress indicators
+   - Quick action buttons (manual savings, view history)
+2. Implement dashboard API endpoints:
+   - GET /dashboard/summary
+   - GET /dashboard/recent-activity
+3. Add pull-to-refresh functionality
+4. Implement real-time balance updates
+5. Add motivational elements (progress animations, achievements)
+6. Ensure responsive design for different screen sizes
+7. Add loading states and error handling
+
+# Test Strategy:
+Test data loading, refresh functionality, progress calculations, and responsive design. Verify real-time updates work correctly.
+
+# Subtasks:
+## 1. Create Dashboard UI Components [pending]
+### Dependencies: None
+### Description: Develop the core UI components for the dashboard screen including total savings display, recent transactions list, goal progress indicators, and quick action buttons.
+### Details:
+Create a DashboardScreen component with styled subcomponents: SavingsBalanceCard (displays total amount with currency formatting), RecentTransactionsList (shows last 5 transactions with date, amount, and category), GoalProgressSection (visual progress bars for each savings goal), and ActionButtonsRow (contains Add Savings and View History buttons). Use skeleton loaders for initial loading states.
+
+## 2. Implement Dashboard API Integration [pending]
+### Dependencies: 8.1
+### Description: Create API service functions to fetch dashboard data and integrate them with the UI components.
+### Details:
+Implement API service functions for GET /dashboard/summary (returns total balance, goal summaries) and GET /dashboard/recent-activity (returns last 5 transactions). Create data models for API responses. Add error handling with appropriate user feedback. Implement data transformation functions to convert API responses to component-ready formats.
+
+## 3. Add Pull-to-Refresh and Loading States [pending]
+### Dependencies: 8.2
+### Description: Implement pull-to-refresh functionality and proper loading states for all dashboard components.
+### Details:
+Add pull-to-refresh gesture handler to refresh all dashboard data. Implement loading indicators for initial load and refresh actions. Create error states with retry options for failed API calls. Ensure smooth transitions between loading, error, and data states.
+
+## 4. Implement Real-Time Balance Updates [pending]
+### Dependencies: 8.2
+### Description: Set up real-time updates for dashboard data using WebSockets or polling.
+### Details:
+Implement either WebSocket connection or efficient polling mechanism to receive balance and transaction updates. Add visual indicators when data changes (subtle animations). Ensure updates are throttled appropriately to prevent UI flicker. Handle connection errors gracefully with automatic reconnection.
+
+## 5. Optimize Responsive Design and Performance [pending]
+### Dependencies: 8.1, 8.3, 8.4
+### Description: Ensure the dashboard is fully responsive and performs well on all device sizes.
+### Details:
+Implement responsive layouts using flexbox/grid for different screen sizes. Optimize component rendering with memoization and virtualized lists for transaction history. Implement lazy loading for non-critical dashboard elements. Add performance monitoring to identify bottlenecks.
+
+## 6. Add Motivational Elements and UX Enhancements [pending]
+### Dependencies: 8.5
+### Description: Implement motivational features like progress animations, achievement notifications, and other UX improvements.
+### Details:
+Create animated progress indicators that celebrate milestones. Implement achievement notifications when users reach savings goals or streaks. Add subtle micro-interactions and feedback animations. Include motivational messages based on savings behavior. Ensure all animations are performant and can be disabled for accessibility.
+

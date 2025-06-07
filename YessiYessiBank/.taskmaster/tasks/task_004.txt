@@ -1,0 +1,58 @@
+# Task ID: 4
+# Title: Create Onboarding Screens (Screens 1-3)
+# Status: pending
+# Dependencies: 3
+# Priority: high
+# Description: Develop welcome, phone registration, and OTP verification screens following the design system
+# Details:
+1. Create screens following @DesignSystem specifications:
+   - WelcomeScreen (Screen 1): App introduction and CTA
+   - PhoneRegistrationScreen (Screen 2): Phone input with Gabonese validation
+   - OTPVerificationScreen (Screen 3): 6-digit code input
+2. Implement phone number validation for Gabonese format
+3. Add loading states and error handling
+4. Implement navigation flow between screens
+5. Add form validation and user feedback
+6. Integrate with authentication API endpoints
+7. Store JWT token securely using Expo SecureStore
+
+# Test Strategy:
+Test complete onboarding flow, phone validation, OTP verification, error states, and navigation. Verify design system compliance.
+
+# Subtasks:
+## 1. Create UI Components for Onboarding Screens [pending]
+### Dependencies: None
+### Description: Develop the UI components for all three onboarding screens following the design system specifications without functionality.
+### Details:
+Create the WelcomeScreen with app introduction and CTA button, PhoneRegistrationScreen with phone input field and submit button, and OTPVerificationScreen with 6-digit code input fields. Use the @DesignSystem components for consistent styling. Focus only on the visual elements at this stage, without implementing validation or navigation logic.
+
+## 2. Implement Phone Number Validation [pending]
+### Dependencies: 4.1
+### Description: Add Gabonese phone number format validation to the PhoneRegistrationScreen.
+### Details:
+Create a validation utility that checks if the phone number follows Gabonese format. Implement real-time validation feedback as the user types. Show appropriate error messages for invalid inputs. Enable/disable the submit button based on validation status.
+
+## 3. Implement Form Validation and User Feedback [pending]
+### Dependencies: 4.1, 4.2
+### Description: Add form validation to all screens and implement user feedback mechanisms including loading states and error handling.
+### Details:
+Add form validation to the OTP screen for 6-digit code. Implement loading indicators for async operations. Create error handling components to display API errors or validation issues. Add success feedback for completed actions. Ensure all forms prevent submission when validation fails.
+
+## 4. Set Up Navigation Flow Between Screens [pending]
+### Dependencies: 4.1, 4.3
+### Description: Implement the navigation flow between the three onboarding screens.
+### Details:
+Configure React Navigation to handle transitions between WelcomeScreen, PhoneRegistrationScreen, and OTPVerificationScreen. Implement navigation logic in response to user actions (button presses, form submissions). Add navigation guards to prevent accessing screens out of sequence.
+
+## 5. Integrate with Authentication API Endpoints [pending]
+### Dependencies: 4.3, 4.4
+### Description: Connect the onboarding screens to the authentication API endpoints for phone registration and OTP verification.
+### Details:
+Implement API service functions to handle phone number submission and OTP verification. Connect form submissions to API calls. Handle API responses including success and error cases. Update UI based on API responses. Implement retry logic for failed requests.
+
+## 6. Implement Secure Token Storage [pending]
+### Dependencies: 4.5
+### Description: Store and manage JWT authentication tokens securely using Expo SecureStore.
+### Details:
+Implement utility functions to securely store JWT tokens using Expo SecureStore after successful authentication. Create functions to retrieve and clear tokens. Add token validation logic. Implement automatic navigation to main app screens when valid token exists. Handle token expiration scenarios.
+
