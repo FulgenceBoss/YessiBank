@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const config = require('./config/config');
 const connectDB = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 // Connect to database
 connectDB();
@@ -22,7 +24,8 @@ app.get('/api/health', (req, res) => {
 });
 
 // Define Routes
-app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/auth', authRoutes);
+app.use('/api/payments', paymentRoutes);
 
 app.listen(config.port, () => {
   console.log(`Server running on port ${config.port}`);
