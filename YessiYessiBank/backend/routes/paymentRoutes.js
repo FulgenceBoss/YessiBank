@@ -42,11 +42,9 @@ const simulateAuthorization = (req, res) => {
         .json({message: 'Autorisation de compte simulée réussie.'});
     } else {
       console.log(`[SIMULATION] Échec de l'autorisation pour ${phoneNumber}.`);
-      res
-        .status(400)
-        .json({
-          message: "Échec de l'autorisation. Le compte ne peut être lié.",
-        });
+      res.status(400).json({
+        message: "Échec de l'autorisation. Le compte ne peut être lié.",
+      });
     }
   }, randomDelay());
 };
