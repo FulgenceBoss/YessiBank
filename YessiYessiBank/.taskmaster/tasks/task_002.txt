@@ -47,7 +47,7 @@ Test database connection, user creation, and basic queries. Verify schema valida
 7. Export the connection instance
 8. Create a test function to verify connection
 
-## 3. Design and Implement User Schema with Validation [completed]
+## 3. Design and Implement User Schema with Validation [pending]
 ### Dependencies: 2.2
 ### Description: Create the Mongoose User schema with all required fields and validation rules
 ### Details:
@@ -64,7 +64,7 @@ Test database connection, user creation, and basic queries. Verify schema valida
 6. Create indexes for frequently queried fields
 7. Export the User model
 
-## 4. Implement Basic CRUD Operations for User Model [completed]
+## 4. Implement Basic CRUD Operations for User Model [pending]
 ### Dependencies: 2.3
 ### Description: Create utility functions for creating, reading, updating, and deleting user records
 ### Details:

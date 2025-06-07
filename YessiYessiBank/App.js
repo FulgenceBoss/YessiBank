@@ -1,29 +1,44 @@
-import React from 'react';
-import {Provider, useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {Provider, useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, ActivityIndicator} from 'react-native';
 
 import store from './src/store/store';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import AuthScreen from './src/screens/AuthScreen';
-import {logout} from './src/store/authSlice'; // Importer l'action de déconnexion
+import {logoutUser, checkAuth} from './src/store/authSlice'; // Importer les nouvelles actions
 
 const Stack = createNativeStackNavigator();
 
 // Un écran d'accueil simple pour l'instant
 const HomeScreen = () => {
-  const dispatch = store.dispatch; // Accès direct au dispatch
+  const dispatch = useDispatch();
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Écran d'accueil</Text>
-      <Button title="Déconnexion" onPress={() => dispatch(logout())} />
+      <Button title="Déconnexion" onPress={() => dispatch(logoutUser())} />
     </View>
   );
 };
 
-const AppNavigator = () => {
-  const {isAuthenticated} = useSelector(state => state.auth);
+const SplashScreen = () => (
+  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <ActivityIndicator size="large" />
+  </View>
+);
+
+const RootNavigator = () => {
+  const {isAuthenticated, appIsReady} = useSelector(state => state.auth);
+
+  useEffect(() => {
+    // Note: Le store est directement utilisé ici car ce composant est en dehors du Provider
+    store.dispatch(checkAuth());
+  }, []);
+
+  if (!appIsReady) {
+    return <SplashScreen />;
+  }
 
   return (
     <NavigationContainer>
@@ -56,7 +71,7 @@ const AppNavigator = () => {
 export default function App() {
   return (
     <Provider store={store}>
-      <AppNavigator />
+      <RootNavigator />
     </Provider>
   );
 }

@@ -249,7 +249,7 @@
       "dependencies": [
         3
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": [
         {
           "id": 1,
@@ -257,7 +257,7 @@
           "description": "Develop the UI components for all three onboarding screens following the design system specifications without functionality.",
           "dependencies": [],
           "details": "Create the WelcomeScreen with app introduction and CTA button, PhoneRegistrationScreen with phone input field and submit button, and OTPVerificationScreen with 6-digit code input fields. Use the @DesignSystem components for consistent styling. Focus only on the visual elements at this stage, without implementing validation or navigation logic.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Verify UI components match design specifications through visual inspection and snapshot tests."
         },
         {
@@ -268,7 +268,7 @@
             1
           ],
           "details": "Create a validation utility that checks if the phone number follows Gabonese format. Implement real-time validation feedback as the user types. Show appropriate error messages for invalid inputs. Enable/disable the submit button based on validation status.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Unit test the validation function with various valid and invalid Gabonese phone numbers. Test UI feedback for different input scenarios."
         },
         {
@@ -280,7 +280,7 @@
             2
           ],
           "details": "Add form validation to the OTP screen for 6-digit code. Implement loading indicators for async operations. Create error handling components to display API errors or validation issues. Add success feedback for completed actions. Ensure all forms prevent submission when validation fails.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test form submission with valid and invalid inputs. Verify loading states appear during async operations and error messages display correctly."
         },
         {
@@ -292,7 +292,7 @@
             3
           ],
           "details": "Configure React Navigation to handle transitions between WelcomeScreen, PhoneRegistrationScreen, and OTPVerificationScreen. Implement navigation logic in response to user actions (button presses, form submissions). Add navigation guards to prevent accessing screens out of sequence.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test navigation flow by simulating user journey through all screens. Verify correct screen transitions and that navigation guards prevent improper access."
         },
         {
@@ -304,7 +304,7 @@
             4
           ],
           "details": "Implement API service functions to handle phone number submission and OTP verification. Connect form submissions to API calls. Handle API responses including success and error cases. Update UI based on API responses. Implement retry logic for failed requests.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Mock API endpoints to test successful and failed requests. Verify UI updates correctly based on API responses."
         },
         {
@@ -315,7 +315,7 @@
             5
           ],
           "details": "Implement utility functions to securely store JWT tokens using Expo SecureStore after successful authentication. Create functions to retrieve and clear tokens. Add token validation logic. Implement automatic navigation to main app screens when valid token exists. Handle token expiration scenarios.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test token storage, retrieval, and clearing functions. Verify automatic navigation based on token presence. Test token expiration handling."
         }
       ]

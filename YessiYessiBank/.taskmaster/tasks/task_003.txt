@@ -20,19 +20,19 @@
 Test OTP generation, SMS sending, verification flow, and JWT token validation. Test rate limiting and expired OTP handling.
 
 # Subtasks:
-## 1. Create OTP Model and Database Schema [completed]
+## 1. Create OTP Model and Database Schema [pending]
 ### Dependencies: None
 ### Description: Design and implement the OTP model with required fields for storing and validating one-time passwords
 ### Details:
 Create a MongoDB schema with fields: phoneNumber (string, indexed), code (string, 6 digits), expiresAt (Date), isUsed (boolean). Include methods for validation and expiration checking. Install dependencies: mongoose, jsonwebtoken, bcryptjs, twilio (or local SMS provider).
 
-## 2. Implement Secure OTP Generation Logic [completed]
+## 2. Implement Secure OTP Generation Logic [pending]
 ### Dependencies: 3.1
 ### Description: Create a service to generate cryptographically secure 6-digit OTP codes with proper expiration handling
 ### Details:
 Create an OTPService with methods to generate random 6-digit codes using crypto module. Set expiration time (5-10 minutes). Implement function to validate if an OTP is valid, not expired, and not previously used. Store generated OTPs in the database with phone number and expiration.
 
-## 3. Integrate SMS Service for OTP Delivery [pending - simulated]
+## 3. Integrate SMS Service for OTP Delivery [pending]
 ### Dependencies: 3.2
 ### Description: Set up and configure SMS service integration to deliver OTP codes to user phone numbers
 ### Details:
@@ -50,7 +50,7 @@ Create TokenService with methods to generate JWTs containing user ID and phone n
 ### Details:
 Create middleware function that extracts JWT from Authorization header. Verify token validity using TokenService. Add user information to request object for authenticated routes. Handle and return appropriate error responses for invalid or expired tokens. Implement optional role-based authorization checks.
 
-## 6. Implement Authentication API Endpoints [completed]
+## 6. Implement Authentication API Endpoints [pending]
 ### Dependencies: 3.2, 3.3, 3.4, 3.5
 ### Description: Create REST API endpoints for OTP sending, verification, and token refresh operations
 ### Details:
