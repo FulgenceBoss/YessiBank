@@ -16,7 +16,6 @@ const generateOtpCode = () => {
  */
 const createAndSendOtp = async phoneNumber => {
   const code = generateOtpCode();
-  const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // Expire dans 5 minutes
 
   // Supprime les anciens OTP pour ce numéro avant d'en créer un nouveau
   await Otp.deleteMany({phoneNumber});
@@ -24,7 +23,6 @@ const createAndSendOtp = async phoneNumber => {
   const otp = new Otp({
     phoneNumber,
     code,
-    expiresAt,
   });
 
   await otp.save();
@@ -43,18 +41,27 @@ const createAndSendOtp = async phoneNumber => {
  * @returns {Promise<boolean>} True si le code est valide, false sinon.
  */
 const verifyOtp = async (phoneNumber, code) => {
+  console.log(
+    `[otpService] Tentative de vérification pour le numéro: ${phoneNumber} avec le code: ${code}`,
+  );
+
   const otp = await Otp.findOne({
     phoneNumber,
     code,
     isUsed: false,
-    expiresAt: {$gt: new Date()}, // Vérifie que la date d'expiration n'est pas passée
   });
 
   if (!otp) {
+    console.log(
+      '[otpService] Echec: Aucun OTP correspondant trouvé dans la base de données.',
+    );
     return false;
   }
 
   // Marque le code comme utilisé pour éviter sa réutilisation
+  console.log(
+    '[otpService] Succès: OTP trouvé. Il va être marqué comme utilisé.',
+  );
   otp.isUsed = true;
   await otp.save();
 
